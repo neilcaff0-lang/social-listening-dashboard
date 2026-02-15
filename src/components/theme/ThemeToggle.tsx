@@ -2,7 +2,6 @@
 
 import { Sun, Moon, Monitor } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
-import { cn } from '@/components/ui/Button';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -12,7 +11,7 @@ interface ThemeToggleProps {
 }
 
 export function ThemeToggle({ className, size = 'md' }: ThemeToggleProps) {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const sizeClasses = {
     sm: 'h-7 w-7',
@@ -34,22 +33,20 @@ export function ThemeToggle({ className, size = 'md' }: ThemeToggleProps) {
 
   return (
     <div
-      className={cn(
-        'inline-flex items-center rounded-lg border border-neutral-200 bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800',
-        className
-      )}
+      className={`inline-flex items-center gap-1 rounded-xl bg-[#F5F7FA] p-1 ${className || ''}`}
     >
       {themes.map(({ value, icon: Icon, label }) => (
         <button
           key={value}
           onClick={() => setTheme(value)}
-          className={cn(
-            'flex items-center justify-center rounded-md transition-all',
-            sizeClasses[size],
-            theme === value
-              ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-              : 'text-neutral-500 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-700'
-          )}
+          className={`
+            flex items-center justify-center rounded-lg transition-all duration-200
+            ${sizeClasses[size]}
+            ${theme === value
+              ? 'bg-white text-[#6C5CE7] shadow-sm'
+              : 'text-[#9AA0AB] hover:text-[#5A6170]'
+            }
+          `}
           title={label}
           aria-label={`切换到${label}主题`}
         >
@@ -61,7 +58,7 @@ export function ThemeToggle({ className, size = 'md' }: ThemeToggleProps) {
 }
 
 export function ThemeDropdown({ className }: { className?: string }) {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const themes: { value: Theme; icon: typeof Sun; label: string }[] = [
     { value: 'light', icon: Sun, label: '浅色主题' },
@@ -73,9 +70,9 @@ export function ThemeDropdown({ className }: { className?: string }) {
   const CurrentIcon = currentTheme?.icon || Sun;
 
   return (
-    <div className={cn('relative group', className)}>
+    <div className={`relative group ${className || ''}`}>
       <button
-        className="flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700"
+        className="flex items-center gap-2 rounded-xl bg-[#F5F7FA] px-3 py-2 text-sm font-medium text-[#5A6170] hover:text-[#1A1D23] transition-colors"
         aria-label="切换主题"
       >
         <CurrentIcon className="h-4 w-4" />
@@ -83,22 +80,23 @@ export function ThemeDropdown({ className }: { className?: string }) {
       </button>
 
       {/* 下拉菜单 */}
-      <div className="absolute right-0 top-full z-50 mt-1 hidden w-40 rounded-lg border border-neutral-200 bg-white py-1 shadow-lg group-hover:block dark:border-neutral-700 dark:bg-neutral-800">
+      <div className="absolute right-0 top-full z-50 mt-1 hidden w-40 rounded-xl border border-[#E8ECF1] bg-white py-1 shadow-lg group-hover:block">
         {themes.map(({ value, icon: Icon, label }) => (
           <button
             key={value}
             onClick={() => setTheme(value)}
-            className={cn(
-              'flex w-full items-center gap-2 px-4 py-2 text-sm transition-colors',
-              theme === value
-                ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-                : 'text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-700'
-            )}
+            className={`
+              flex w-full items-center gap-2 px-4 py-2 text-sm transition-colors
+              ${theme === value
+                ? 'bg-gradient-to-r from-[#6C5CE7]/10 to-[#a29bfe]/5 text-[#6C5CE7]'
+                : 'text-[#5A6170] hover:bg-[#F5F7FA] hover:text-[#1A1D23]'
+              }
+            `}
           >
             <Icon className="h-4 w-4" />
             {label}
             {theme === value && (
-              <span className="ml-auto text-xs">✓</span>
+              <span className="ml-auto text-xs text-[#6C5CE7]">✓</span>
             )}
           </button>
         ))}

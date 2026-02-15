@@ -67,20 +67,20 @@ export default function ModuleNav() {
     <nav className="fixed left-0 top-0 z-30 h-screen w-[220px] border-r border-[#E8ECF1] bg-white overflow-y-auto">
       <div className="flex h-full flex-col">
         {/* Logo 区域 */}
-        <div className="flex items-center gap-3 px-5 py-6">
+        <div className="flex items-center gap-3 px-5 py-5">
           <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#6C5CE7] to-[#a29bfe] flex items-center justify-center shadow-lg shadow-[#6C5CE7]/25">
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div>
             <span className="text-base font-bold text-[#1A1D23]">SNS</span>
-            <span className="ml-1 text-xs font-medium text-[#9AA0AB]">Analytics</span>
+            <span className="ml-1 text-xs font-medium text-[#5A6170]">Analytics</span>
           </div>
         </div>
 
         {/* 导航列表 */}
         <div className="flex-1 px-3">
-          <div className="mb-2 px-3">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#9AA0AB]">
+          <div className="mb-3 px-3">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#5A6170]">
               导航菜单
             </span>
           </div>
@@ -118,7 +118,7 @@ export default function ModuleNav() {
         </div>
 
         {/* 底部设置 */}
-        <div className="border-t border-[#E8ECF1] p-3">
+        <div className="border-t border-[#E8ECF1] p-4">
           <Link
             href="/settings"
             className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-[#5A6170] hover:bg-[#F5F7FA] hover:text-[#1A1D23] transition-all duration-200"

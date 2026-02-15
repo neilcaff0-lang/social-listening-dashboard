@@ -1,24 +1,22 @@
 "use client";
 
-import Header from "@/components/layout/Header";
 import ModuleNav from "@/components/layout/ModuleNav";
+import TopBar from "@/components/layout/Header";
 import PPTBuilder from "@/components/analysis/PPTBuilder";
 
 export default function AnalysisPage() {
   return (
-    <div className="h-screen flex flex-col bg-neutral-50 dark:bg-neutral-900 overflow-hidden">
-      {/* 顶部导航栏 */}
-      <Header />
+    <div className="h-screen bg-[#F5F7FA] overflow-hidden">
+      {/* 左侧导航 */}
+      <ModuleNav />
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* 左侧模块导航 */}
-        <ModuleNav />
+      {/* 右侧内容区 */}
+      <div style={{ marginLeft: '220px' }} className="h-screen flex flex-col overflow-hidden">
+        {/* 顶部栏 */}
+        <TopBar />
 
-        {/* 右侧内容区 */}
-        <div className="flex-1 flex flex-col overflow-hidden md:ml-56">
-          {/* PPT构建器 */}
-          <PPTBuilder />
-        </div>
+        {/* PPT构建器 */}
+        <PPTBuilder />
       </div>
     </div>
   );

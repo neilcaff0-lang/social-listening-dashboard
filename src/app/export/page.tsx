@@ -24,6 +24,8 @@ import {
 import { clsx } from "clsx";
 import { RawDataRow } from "@/types";
 import Link from "next/link";
+import ModuleNav from "@/components/layout/ModuleNav";
+import TopBar from "@/components/layout/Header";
 
 // 导出配置类型
 interface ExportConfig {
@@ -561,32 +563,19 @@ export default function ExportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
-      {/* 顶部导航 */}
-      <header className="sticky top-0 z-10 border-b border-neutral-200 bg-white px-6 py-4 dark:border-neutral-700 dark:bg-neutral-800">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
-            >
-              <ArrowLeft className="h-5 w-5" />
-              <span>返回仪表盘</span>
-            </Link>
-            <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-              导出中心
-            </h1>
-          </div>
-          <div className="text-sm text-neutral-500">
-            筛选数据: {filteredData.length} / {rawData.length} 条
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-[#F5F7FA]">
+      {/* 左侧导航 */}
+      <ModuleNav />
 
-      {/* 主内容 */}
-      <main className="flex h-[calc(100vh-73px)]">
+      {/* 右侧内容区 */}
+      <div style={{ marginLeft: '220px' }} className="min-h-screen flex flex-col">
+        {/* 顶部栏 */}
+        <TopBar />
+
+        {/* 主内容 - 两列布局 */}
+        <main className="flex flex-1 overflow-hidden">
         {/* 左侧：导出项目列表 */}
-        <div className="w-[400px] flex-shrink-0 overflow-auto border-r border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
+        <div className="w-[360px] flex-shrink-0 overflow-auto border-r border-[#E8ECF1] bg-white p-5">
           <div className="space-y-6">
             {/* 统计概览 */}
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
@@ -880,7 +869,7 @@ export default function ExportPage() {
         </div>
 
         {/* 右侧：预览区域 */}
-        <div className="flex-1 overflow-auto bg-neutral-50 p-6 dark:bg-neutral-900">
+        <div className="flex-1 overflow-auto bg-[#F5F7FA] p-5">
           <div className="mx-auto max-w-4xl">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
@@ -908,7 +897,8 @@ export default function ExportPage() {
             </div>
           </div>
         </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
