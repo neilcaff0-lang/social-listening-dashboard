@@ -41,19 +41,19 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             id={inputId}
             checked={checked}
             onChange={handleChange}
-            className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-neutral-300 bg-white transition-all checked:border-blue-600 checked:bg-blue-600 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:border-neutral-600 dark:bg-neutral-800 dark:checked:border-blue-500 dark:checked:bg-blue-500 dark:hover:border-blue-400 dark:focus:ring-blue-400"
+            className="peer h-4 w-4 cursor-pointer appearance-none rounded-md border border-[#E8ECF1] bg-white transition-all checked:border-[#6C5CE7] checked:bg-gradient-to-br checked:from-[#6C5CE7] checked:to-[#a29bfe] hover:border-[#6C5CE7]/50 focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/20"
             {...props}
           />
           <Check
             className={cn(
-              "pointer-events-none absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white transition-opacity",
+              "pointer-events-none absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 text-white transition-opacity",
               indeterminate ? "opacity-0" : "opacity-0 peer-checked:opacity-100"
             )}
             strokeWidth={3}
           />
           <Minus
             className={cn(
-              "pointer-events-none absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white",
+              "pointer-events-none absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 text-white",
               indeterminate ? "opacity-100" : "opacity-0"
             )}
             strokeWidth={3}
@@ -62,7 +62,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="cursor-pointer text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            className="cursor-pointer text-xs font-medium text-[#5A6170] hover:text-[#1A1D23] transition-colors"
           >
             {label}
           </label>

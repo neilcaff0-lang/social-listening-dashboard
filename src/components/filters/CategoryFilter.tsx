@@ -28,11 +28,9 @@ export default function CategoryFilter() {
   const someSelected = selectedCategories.length > 0 && !allSelected;
 
   return (
-    <div className="space-y-2">
-      <h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-        品类筛选
-      </h3>
-      <div className="rounded-lg border border-neutral-200 p-3 dark:border-neutral-800">
+    <div className="space-y-1.5">
+      <label className="text-xs font-semibold text-[#5A6170]">品类筛选</label>
+      <div className="rounded-xl border border-[#E8ECF1] bg-white p-3">
         {categories.length > 0 ? (
           <div className="space-y-2">
             {/* 全选复选框 */}
@@ -42,9 +40,9 @@ export default function CategoryFilter() {
               indeterminate={someSelected}
               onCheckedChange={handleSelectAll}
             />
-            <div className="border-t border-neutral-200 pt-2 dark:border-neutral-700" />
+            <div className="border-t border-[#E8ECF1] pt-2" />
             {/* 品类列表 */}
-            <div className="max-h-48 space-y-2 overflow-y-auto">
+            <div className="max-h-40 space-y-1.5 overflow-y-auto">
               {categories.map((category) => (
                 <Checkbox
                   key={category.id}
@@ -58,7 +56,7 @@ export default function CategoryFilter() {
             </div>
           </div>
         ) : (
-          <p className="text-sm text-neutral-500">暂无品类数据</p>
+          <p className="text-sm text-[#9AA0AB]">暂无品类数据</p>
         )}
       </div>
     </div>

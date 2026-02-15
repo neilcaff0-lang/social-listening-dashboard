@@ -1,32 +1,26 @@
 "use client";
 
-import { useDataStore } from "@/store/useDataStore";
-import Header from "@/components/layout/Header";
 import ModuleNav from "@/components/layout/ModuleNav";
+import TopBar from "@/components/layout/Header";
 import FilterBar from "@/components/layout/FilterBar";
 import MainContent from "@/components/layout/MainContent";
 
 export default function DashboardPage() {
-  const { rawData } = useDataStore();
-  const hasData = rawData.length > 0;
-
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
-      {/* 顶部导航栏 */}
-      <Header />
+    <div className="min-h-screen bg-[#F5F7FA]">
+      {/* 左侧导航 - fixed */}
+      <ModuleNav />
 
-      <div className="flex">
-        {/* 左侧模块导航 */}
-        <ModuleNav />
+      {/* 右侧内容区 - 偏移侧边栏宽度 */}
+      <div style={{ marginLeft: '220px' }} className="min-h-screen">
+        {/* 顶部栏 */}
+        <TopBar />
 
-        {/* 右侧内容区 */}
-        <div className="flex flex-1 flex-col transition-all md:ml-56">
-          {/* 顶部筛选栏 */}
-          <FilterBar />
+        {/* 筛选栏 */}
+        <FilterBar />
 
-          {/* 主内容区 */}
-          <MainContent />
-        </div>
+        {/* 主内容区 */}
+        <MainContent />
       </div>
     </div>
   );

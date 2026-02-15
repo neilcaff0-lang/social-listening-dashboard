@@ -367,12 +367,21 @@ const BubbleChart = forwardRef<BubbleChartRef, BubbleChartProps>(function Bubble
     return (
       <div
         ref={chartRef}
-        className={`rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm ${className}`}
+        className={`rounded-2xl bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)] border border-[#E8ECF1] ${className}`}
       >
-        <h3 className="text-lg font-semibold text-neutral-900">关键词气泡图</h3>
-        <p className="mt-1 text-xs text-neutral-400">声量与增长分析</p>
-        <div className="mt-6 flex h-72 items-center justify-center">
-          <p className="text-sm text-neutral-400">暂无数据</p>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#6C5CE7] to-[#a29bfe] flex items-center justify-center shadow-lg shadow-[#6C5CE7]/25">
+            <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-[#1A1D23]">关键词气泡图</h3>
+            <p className="text-xs text-[#9AA0AB]">声量与增长分析</p>
+          </div>
+        </div>
+        <div className="flex h-72 items-center justify-center rounded-xl bg-gradient-to-br from-[#F5F7FA] to-[#EEF1F5]">
+          <p className="text-sm text-[#9AA0AB]">暂无数据</p>
         </div>
       </div>
     );
@@ -381,14 +390,23 @@ const BubbleChart = forwardRef<BubbleChartRef, BubbleChartProps>(function Bubble
   return (
     <div
       ref={chartRef}
-      className={`rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm ${className}`}
+      className={`rounded-2xl bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)] border border-[#E8ECF1] transition-all duration-300 hover:shadow-[0_8px_25px_rgba(0,0,0,0.1)] hover:border-[#6C5CE7]/20 ${className}`}
     >
       {/* 标题 */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-neutral-900">关键词气泡图</h3>
-        <p className="mt-1 text-xs text-neutral-400">
-          X: 声量 · Y: 增速 · 大小: 搜索量 · 共 {chartData.length} 个关键词
-        </p>
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#6C5CE7] to-[#a29bfe] flex items-center justify-center shadow-lg shadow-[#6C5CE7]/25">
+            <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-[#1A1D23]">关键词气泡图</h3>
+            <p className="text-xs text-[#9AA0AB]">
+              共 {chartData.length} 个关键词
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* 洞察提示 */}
@@ -397,7 +415,7 @@ const BubbleChart = forwardRef<BubbleChartRef, BubbleChartProps>(function Bubble
           {insights.map((insight, index) => (
             <span
               key={index}
-              className="inline-flex items-center rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-medium text-neutral-600"
+              className="inline-flex items-center rounded-full bg-gradient-to-r from-[#6C5CE7]/10 to-[#a29bfe]/10 px-3 py-1.5 text-xs font-medium text-[#6C5CE7]"
             >
               {insight}
             </span>
@@ -429,14 +447,14 @@ const BubbleChart = forwardRef<BubbleChartRef, BubbleChartProps>(function Bubble
 
       {/* 选中的关键词 */}
       {selectedKeywords.size > 0 && (
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-neutral-100 pt-4">
-          <span className="text-xs font-medium text-neutral-500">
+        <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[#E8ECF1] pt-4">
+          <span className="text-xs font-semibold text-[#5A6170]">
             已选择 {selectedKeywords.size} 个:
           </span>
           {Array.from(selectedKeywords).map(keyword => (
             <span
               key={keyword}
-              className="inline-flex items-center gap-1 rounded-full bg-neutral-900 px-3 py-1 text-xs font-medium text-white"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#6C5CE7] to-[#a29bfe] px-3 py-1.5 text-xs font-semibold text-white shadow-md shadow-[#6C5CE7]/25"
             >
               {keyword}
               <button
@@ -447,7 +465,7 @@ const BubbleChart = forwardRef<BubbleChartRef, BubbleChartProps>(function Bubble
                     return newSet;
                   });
                 }}
-                className="ml-1 text-neutral-400 hover:text-white"
+                className="ml-0.5 text-white/70 hover:text-white transition-colors"
               >
                 ×
               </button>
@@ -455,9 +473,9 @@ const BubbleChart = forwardRef<BubbleChartRef, BubbleChartProps>(function Bubble
           ))}
           <button
             onClick={() => setSelectedKeywords(new Set())}
-            className="text-xs text-neutral-400 hover:text-neutral-600"
+            className="text-xs text-[#9AA0AB] hover:text-[#6C5CE7] transition-colors font-medium"
           >
-            清除
+            清除全部
           </button>
         </div>
       )}

@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { LucideIcon, ArrowUp, ArrowDown } from "lucide-react";
+import { LucideIcon, ArrowUp, ArrowDown, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
@@ -48,46 +48,55 @@ export default function StatCard({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl bg-white p-5",
-        "border border-[#E8ECF1]",
+        "relative overflow-hidden rounded-2xl bg-white p-6",
+        "shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)]",
         "transition-all duration-300 ease-out cursor-default",
-        "hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:-translate-y-0.5"
+        "hover:shadow-[0_8px_25px_rgba(0,0,0,0.1)] hover:-translate-y-1",
+        "border border-transparent hover:border-[#6C5CE7]/20"
       )}
     >
+      {/* 背景装饰 */}
+      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-[#6C5CE7]/5 to-[#a29bfe]/10 blur-2xl" />
+
       {/* 标题行 */}
-      <div className="flex items-center gap-2 mb-3">
+      <div className="relative flex items-center gap-3 mb-4">
         {Icon && (
-          <Icon className="h-4 w-4 text-[#6C5CE7]" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#6C5CE7] to-[#a29bfe] shadow-lg shadow-[#6C5CE7]/25">
+            <Icon className="h-5 w-5 text-white" />
+          </div>
         )}
-        <span className="text-[13px] font-medium text-[#5A6170]">
+        <span className="text-sm font-medium text-[#5A6170]">
           {title}
         </span>
       </div>
 
       {/* 数值 */}
-      <div className="text-[28px] font-bold text-[#1A1D23] leading-tight tabular-nums">
+      <div className="relative text-[32px] font-bold text-[#1A1D23] leading-none tabular-nums mb-3">
         {displayValue}
       </div>
 
       {/* 增长率 */}
       {growthRate !== undefined && (
-        <div
-          className={cn(
-            "flex items-center gap-1 mt-2 text-[13px]",
-            isPositive && "text-[#00C48C]",
-            isNegative && "text-[#FF6B6B]",
-            !isPositive && !isNegative && "text-[#9AA0AB]"
-          )}
-        >
-          {isPositive ? <ArrowUp className="h-3.5 w-3.5" /> :
-           isNegative ? <ArrowDown className="h-3.5 w-3.5" /> : null}
-          <span>{formatPercent(growthRate)}</span>
-          <span className="text-[#9AA0AB] ml-1">同比</span>
+        <div className="relative flex items-center gap-2">
+          <div
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold",
+              isPositive && "bg-[#00C48C]/10 text-[#00C48C]",
+              isNegative && "bg-[#FF6B6B]/10 text-[#FF6B6B]",
+              !isPositive && !isNegative && "bg-[#9AA0AB]/10 text-[#9AA0AB]"
+            )}
+          >
+            {isPositive ? <ArrowUp className="h-4 w-4" /> :
+             isNegative ? <ArrowDown className="h-4 w-4" /> :
+             <Minus className="h-4 w-4" />}
+            <span>{formatPercent(Math.abs(growthRate))}</span>
+          </div>
+          <span className="text-xs text-[#9AA0AB]">同比变化</span>
         </div>
       )}
 
       {/* 额外内容 */}
-      {suffix && <div className="mt-2">{suffix}</div>}
+      {suffix && <div className="relative mt-3">{suffix}</div>}
     </div>
   );
 }

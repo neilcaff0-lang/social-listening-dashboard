@@ -109,20 +109,18 @@ export default function TimeFilter() {
   const selectedYear = filters.timeFilter.year;
 
   return (
-    <div className="space-y-2">
-      <h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-        时间筛选
-      </h3>
-      <div className="rounded-lg border border-neutral-200 p-3 dark:border-neutral-800">
+    <div className="space-y-1.5">
+      <label className="text-xs font-semibold text-[#5A6170]">时间筛选</label>
+      <div className="rounded-xl border border-[#E8ECF1] bg-white p-3">
         {availableYears.length > 0 ? (
           <div className="space-y-3">
             {/* 年份选择 */}
-            <div className="space-y-1">
-              <label className="text-xs text-neutral-500">年份</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-medium text-[#9AA0AB] uppercase tracking-wide">年份</label>
               <select
                 value={selectedYear}
                 onChange={(e) => handleYearChange(Number(e.target.value))}
-                className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-neutral-600 dark:bg-neutral-800"
+                className="w-full rounded-lg border border-[#E8ECF1] bg-white px-3 py-2 text-sm focus:border-[#6C5CE7] focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/20 transition-all"
               >
                 {availableYears.map((year) => (
                   <option key={year} value={year}>
@@ -133,19 +131,19 @@ export default function TimeFilter() {
             </div>
 
             {/* 月份多选 */}
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-xs text-neutral-500">月份</label>
+                <label className="text-[10px] font-medium text-[#9AA0AB] uppercase tracking-wide">月份</label>
                 <button
                   type="button"
                   onClick={() => handleSelectAllMonths(!allMonthsSelected)}
-                  className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400"
+                  className="text-[10px] font-medium text-[#6C5CE7] hover:text-[#5B4BD5] transition-colors"
                 >
                   {allMonthsSelected ? '取消全选' : '全选'}
                 </button>
               </div>
               {availableMonths.length > 0 ? (
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-4 gap-1.5">
                   {availableMonths.map((month) => (
                     <Checkbox
                       key={month}
@@ -158,12 +156,12 @@ export default function TimeFilter() {
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-neutral-400">该年份无可用月份</p>
+                <p className="text-xs text-[#9AA0AB]">该年份无可用月份</p>
               )}
             </div>
           </div>
         ) : (
-          <p className="text-sm text-neutral-500">暂无时间数据</p>
+          <p className="text-sm text-[#9AA0AB]">暂无时间数据</p>
         )}
       </div>
     </div>

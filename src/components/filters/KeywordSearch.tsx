@@ -31,34 +31,25 @@ export default function KeywordSearch() {
   };
 
   return (
-    <div className="space-y-2">
-      <h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-        关键词搜索
-      </h3>
-      <div className="rounded-lg border border-neutral-200 p-3 dark:border-neutral-800">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="输入关键词搜索..."
-            className="w-full rounded-md border border-neutral-300 bg-white py-2 pl-9 pr-8 text-sm placeholder:text-neutral-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-neutral-600 dark:bg-neutral-800"
-          />
-          {inputValue && (
-            <button
-              type="button"
-              onClick={handleClear}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-            >
-              <X className="h-3.5 w-3.5 text-neutral-400" />
-            </button>
-          )}
-        </div>
-        {filters.keyword && (
-          <p className="mt-2 text-xs text-neutral-500">
-            当前搜索: <span className="font-medium text-blue-600">{filters.keyword}</span>
-          </p>
+    <div className="space-y-1.5">
+      <label className="text-xs font-semibold text-[#5A6170]">关键词搜索</label>
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9AA0AB]" />
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="输入关键词搜索..."
+          className="w-full rounded-xl border border-[#E8ECF1] bg-white py-2.5 pl-9 pr-8 text-sm placeholder:text-[#9AA0AB] focus:border-[#6C5CE7] focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/20 transition-all"
+        />
+        {inputValue && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1 hover:bg-[#F5F7FA] transition-colors"
+          >
+            <X className="h-3.5 w-3.5 text-[#9AA0AB]" />
+          </button>
         )}
       </div>
     </div>

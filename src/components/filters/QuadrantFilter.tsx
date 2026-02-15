@@ -9,25 +9,25 @@ const QUADRANTS = [
     id: '第一象限',
     label: '第一象限',
     description: '高声量高增长',
-    color: 'bg-green-500',
+    color: 'bg-[#00C48C]',
   },
   {
     id: '第二象限',
     label: '第二象限',
     description: '低声量高增长',
-    color: 'bg-blue-500',
+    color: 'bg-[#6C5CE7]',
   },
   {
     id: '第三象限',
     label: '第三象限',
     description: '低声量低增长',
-    color: 'bg-gray-500',
+    color: 'bg-[#9AA0AB]',
   },
   {
     id: '第四象限',
     label: '第四象限',
     description: '高声量低增长',
-    color: 'bg-orange-500',
+    color: 'bg-[#FAAD14]',
   },
 ];
 
@@ -57,11 +57,9 @@ export default function QuadrantFilter() {
   const someSelected = selectedQuadrants.length > 0 && !allSelected;
 
   return (
-    <div className="space-y-2">
-      <h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-        象限筛选
-      </h3>
-      <div className="rounded-lg border border-neutral-200 p-3 dark:border-neutral-800">
+    <div className="space-y-1.5">
+      <label className="text-xs font-semibold text-[#5A6170]">象限筛选</label>
+      <div className="rounded-xl border border-[#E8ECF1] bg-white p-3">
         <div className="space-y-2">
           {/* 全选 */}
           <Checkbox
@@ -70,14 +68,14 @@ export default function QuadrantFilter() {
             indeterminate={someSelected}
             onCheckedChange={handleSelectAll}
           />
-          <div className="border-t border-neutral-200 pt-2 dark:border-neutral-700" />
+          <div className="border-t border-[#E8ECF1] pt-2" />
 
           {/* 象限列表 */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {QUADRANTS.map((quadrant) => (
               <div
                 key={quadrant.id}
-                className="flex items-start gap-2 rounded p-2 hover:bg-neutral-50 dark:hover:bg-neutral-900"
+                className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-[#F5F7FA] transition-colors"
               >
                 <Checkbox
                   label={quadrant.label}
@@ -86,14 +84,12 @@ export default function QuadrantFilter() {
                     handleQuadrantChange(quadrant.id, checked ?? false)
                   }
                 />
-                <div className="flex flex-col">
-                  <span className="text-xs text-neutral-500">
-                    {quadrant.description}
-                  </span>
-                  <span
-                    className={`mt-0.5 h-2 w-2 rounded-full ${quadrant.color}`}
-                  />
-                </div>
+                <span className="text-[10px] text-[#9AA0AB] ml-auto">
+                  {quadrant.description}
+                </span>
+                <span
+                  className={`h-2.5 w-2.5 rounded-full ${quadrant.color}`}
+                />
               </div>
             ))}
           </div>

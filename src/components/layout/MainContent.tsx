@@ -60,27 +60,17 @@ export default function MainContent({ children }: MainContentProps) {
   }, [filters]);
 
   return (
-    <main className="flex-1 overflow-auto bg-neutral-50">
+    <main className="flex-1 overflow-auto">
       {hasData ? (
-        <div className="mx-auto max-w-7xl px-8 py-10">
+        <div className="p-6">
           {/* 筛选控制器 */}
           <FilterController />
 
           {/* 筛选标签 */}
           <ActiveFilterTags />
 
-          {/* 页面标题 */}
-          <div className="mb-10">
-            <h1 className="text-3xl font-semibold tracking-tight text-neutral-900">
-              数据概览
-            </h1>
-            <p className="mt-2 text-base text-neutral-500">
-              社交媒体监听数据的关键指标与洞察
-            </p>
-          </div>
-
           {/* 统计卡片 */}
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
             <StatCard
               title="总声量"
               value={stats?.totalBuzz || 0}
@@ -105,11 +95,11 @@ export default function MainContent({ children }: MainContentProps) {
               icon={Hash}
               suffix={
                 hasFilters ? (
-                  <p className="text-xs text-neutral-400">
+                  <p className="text-xs text-[#9AA0AB]">
                     筛选中 {filteredDataCount} / {rawData.length} 条
                   </p>
                 ) : (
-                  <p className="text-xs text-neutral-400">
+                  <p className="text-xs text-[#9AA0AB]">
                     共 {rawData.length} 条数据
                   </p>
                 )
@@ -118,33 +108,33 @@ export default function MainContent({ children }: MainContentProps) {
           </div>
 
           {/* 导出按钮 */}
-          <div className="mt-10 flex justify-end">
+          <div className="flex justify-end mb-5">
             <button
               onClick={() => setShowExportPanel(!showExportPanel)}
               className={cn(
-                "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium",
+                "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold",
                 "transition-all duration-300",
                 showExportPanel
-                  ? "bg-neutral-900 text-white"
-                  : "bg-white text-neutral-900 border border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
+                  ? "bg-gradient-to-r from-[#6C5CE7] to-[#a29bfe] text-white shadow-lg shadow-[#6C5CE7]/30"
+                  : "bg-white text-[#5A6170] border border-[#E8ECF1] hover:border-[#6C5CE7] hover:text-[#6C5CE7] hover:shadow-md"
               )}
             >
               <Download className="h-4 w-4" />
-              {showExportPanel ? '完成' : '导出'}
+              {showExportPanel ? '完成' : '导出数据'}
             </button>
           </div>
 
           {/* 导出面板 */}
           {showExportPanel && (
-            <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6">
-              <div className="flex gap-6 border-b border-neutral-100 pb-4">
+            <div className="mb-5 rounded-2xl border border-[#E8ECF1] bg-white p-5 shadow-sm">
+              <div className="flex gap-5 border-b border-[#E8ECF1] pb-3 mb-4">
                 <button
                   onClick={() => setExportTab('charts')}
                   className={cn(
-                    "text-sm font-medium transition-colors",
+                    "text-sm font-semibold transition-colors pb-1",
                     exportTab === 'charts'
-                      ? 'text-neutral-900'
-                      : 'text-neutral-400 hover:text-neutral-600'
+                      ? 'text-[#6C5CE7] border-b-2 border-[#6C5CE7]'
+                      : 'text-[#9AA0AB] hover:text-[#5A6170]'
                   )}
                 >
                   图表导出
@@ -152,17 +142,17 @@ export default function MainContent({ children }: MainContentProps) {
                 <button
                   onClick={() => setExportTab('data')}
                   className={cn(
-                    "text-sm font-medium transition-colors",
+                    "text-sm font-semibold transition-colors pb-1",
                     exportTab === 'data'
-                      ? 'text-neutral-900'
-                      : 'text-neutral-400 hover:text-neutral-600'
+                      ? 'text-[#6C5CE7] border-b-2 border-[#6C5CE7]'
+                      : 'text-[#9AA0AB] hover:text-[#5A6170]'
                   )}
                 >
                   数据导出
                 </button>
               </div>
 
-              <div className="mt-6">
+              <div>
                 {exportTab === 'charts' && (
                   <ChartExporter
                     ref={chartExporterRef}
@@ -184,13 +174,13 @@ export default function MainContent({ children }: MainContentProps) {
           )}
 
           {/* 图表区域 */}
-          <div className="mt-10">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-neutral-900">数据分析</h2>
-              <span className="text-xs text-neutral-400">点击气泡查看详情</span>
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-bold text-[#1A1D23]">数据分析</h2>
+              <span className="text-xs text-[#9AA0AB] bg-[#F5F7FA] px-3 py-1 rounded-full">点击气泡查看详情</span>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               <div ref={bubbleChartRef}>
                 <BubbleChart />
               </div>
@@ -199,31 +189,31 @@ export default function MainContent({ children }: MainContentProps) {
           </div>
 
           {/* Top 关键词 */}
-          <div className="mt-10">
+          <div className="mb-6">
             <TopKeywordsChart ref={topKeywordsChartRef} />
           </div>
 
           {/* 数据表格 */}
-          <div className="mt-10">
+          <div>
             <DataTable />
           </div>
         </div>
       ) : (
         /* 空状态 */
-        <div className="flex min-h-[80vh] flex-col items-center justify-center px-8">
+        <div className="flex min-h-[70vh] flex-col items-center justify-center px-6">
           <div className="text-center">
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-neutral-100">
-              <BarChart3 className="h-10 w-10 text-neutral-400" />
+            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F5F7FA] to-[#EEF1F5] shadow-inner">
+              <BarChart3 className="h-8 w-8 text-[#9AA0AB]" />
             </div>
-            <h2 className="text-2xl font-semibold text-neutral-900">
+            <h2 className="text-lg font-bold text-[#1A1D23]">
               暂无数据
             </h2>
-            <p className="mt-3 text-base text-neutral-500 max-w-sm mx-auto">
+            <p className="mt-2 text-sm text-[#9AA0AB] max-w-xs mx-auto">
               上传社交媒体监听数据，开始分析趋势和洞察
             </p>
             <Link
               href="/upload"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-neutral-800"
+              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#6C5CE7] to-[#a29bfe] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#6C5CE7]/30 transition-all hover:shadow-xl hover:-translate-y-0.5"
             >
               上传数据
               <ChevronRight className="h-4 w-4" />
