@@ -1,0 +1,115 @@
+# SNS Dashboard 开发进度
+
+## 进度记录
+
+### 2026-02-15
+
+- [x] UI优化: PPT演示模式(PlayMode)显示问题修复
+  - 修复月份排序问题：使用年份+月份数字排序，支持"1月"、"1"等格式
+  - 修复维度标签：根据关键词实际维度动态显示（场景/功能/材质/版型/设计）
+  - 优化X轴显示：简化月份显示为纯数字
+  - 优化Tooltip：显示完整年月信息
+  - 修复TypeScript类型错误：Tooltip formatter参数类型
+
+- [x] Bug修复: YOY 增速显示不一致问题
+  - 问题：部分 YOY 值显示为 1% 而非 98%
+  - 原因：Excel 数据中小数格式(0.98)和百分比格式(98)混用
+  - 解决：添加 `normalizePercentValue()` 函数统一处理
+  - 涉及文件：`data-processor.ts`, `dimension-extractor.ts`, `DataTable.tsx`
+
+- [x] Bug修复: 时间筛选默认不显示月份
+  - 问题：选择 2026 年时看不到月份选项
+  - 原因：默认年份未设置，导致月份列表为空
+  - 解决：添加 useEffect 自动选择第一个可用年份
+  - 涉及文件：`TimeFilter.tsx`
+
+- [x] UI优化: 重新设计 Dashboard 布局
+  - 创建 `ModuleNav` 组件：左侧功能模块导航（首页、数据概览、四象限分析、趋势分析、PPT构建器、数据导入）
+  - 创建 `FilterBar` 组件：顶部筛选栏（关键词搜索、品类筛选、时间筛选、象限筛选）
+  - 更新 `Header` 组件：简化为仅显示 Logo 和主题切换
+  - 更新所有页面布局（Dashboard、Analysis、Upload、Home）使用新布局结构
+
+- [x] UI优化: PPT 演示模式重新设计
+  - 参考 `wind-jacket-dashboard.html` 专业设计
+  - 白色背景的专业 PPT 幻灯片样式
+  - 包含 Header、Scene Section、2x2 关键词卡片网格、Footer
+  - 每个卡片显示关键词名称、维度、热度、增速和趋势图
+  - 维度颜色动态适配
+
+- [x] Bug修复: PPT 构建器拖拽功能
+  - 简化布局：左侧关键词池 + 中间四象限 + 右侧页面导航
+  - 关键词以标签形式直接显示，不再隐藏
+  - 修复拖拽逻辑：从关键词池(droppableId="keyword-pool")拖到象限
+  - 去掉复杂的维度选择器，默认显示所有关键词
+
+- [x] UI优化: 左侧关键词面板重新设计
+  - 按维度分组显示关键词
+  - 更紧凑的标签式布局 (px-2 py-0.5)
+  - 维度指示器缩小 (w-1.5 h-1.5)
+  - 添加分组标题和计数
+  - 整体UI紧凑化：左侧面板宽度缩小、顶部工具栏紧凑、象限卡片紧凑
+
+- [x] UI优化: PPT构建器高级设计
+  - 添加渐变背景和玻璃态效果
+  - 象限卡片使用渐变色和图标
+  - 关键词标签使用维度专属颜色
+  - 添加阴影和过渡动画
+  - 播放按钮使用渐变和悬停效果
+
+- [x] Bug修复: YOY/MOM 百分比显示问题（再次修复）
+  - 问题：同比和环比值显示缩小了100倍
+  - 原因：`normalizePercentValue()` 函数未实际实现
+  - 解决：在 `data-processor.ts` 中添加 `normalizePercentValue()` 函数
+  - 应用范围：`dimension-extractor.ts`, `data-processor.ts`, `DataTable.tsx`
+  - 逻辑：值在 -1 到 1 之间（不含0）时乘以100
+
+- [x] 数据修复: YOY数值严格使用Excel原始值
+  - 移除 normalizePercentValue 函数
+  - 所有 YOY/TTL_Buzz_YOY 值直接使用原始值
+  - 更新 data-processor.ts, dimension-extractor.ts, DataTable.tsx, export/page.tsx
+  - 最终逻辑：原始数据是比率格式，乘以100转换为百分比
+
+- [x] PPT构建器功能优化
+  - 移除时间筛选，使用全部数据
+  - 创建 `KeywordTrendChart` 组件：组合图显示月度数据
+  - 柱状图(蓝色)显示 Buzz 声量
+  - 折线图(绿色)显示 YOY 增速
+  - 拖入关键词后自动显示该关键词的月度趋势
+
+- [x] UI优化: Dashboard页面高级设计
+  - StatCard 组件重新设计：渐变背景、悬停动画、图标阴影
+  - 5种渐变主题：blue, green, purple, orange, slate
+  - 主内容区渐变背景
+  - 导出按钮使用渐变和阴影效果
+
+### 2026-02-14
+
+- [x] 任务 1: 项目基础配置
+- [x] 任务 2: 类型定义
+- [x] 任务 3: 数据解析模块
+- [x] 任务 4: 数据处理模块
+- [x] 任务 5: 状态管理
+- [x] 任务 6: 首页 - UI 实现
+- [x] 任务 7: 数据导入页 - 文件上传
+- [x] 任务 8: 数据导入页 - Sheet 选择和数据预览
+- [x] 任务 9: 数据导入页 - 确认导入
+- [x] 任务 10: Dashboard - 基础布局
+- [x] 任务 11: Dashboard - 筛选组件
+- [x] 任务 12: Dashboard - 四象限图
+- [x] 任务 13: Dashboard - 趋势图
+- [x] 任务 14: Dashboard - Top关键词排行
+- [x] 任务 15: Dashboard - 数据表格
+- [x] 任务 16: Dashboard - 统计卡片
+- [x] 任务 17: Dashboard - 筛选联动
+- [x] 任务 18: 导出功能 - 图表导出
+- [x] 任务 19: 导出功能 - 数据导出 (已增强：添加导出进度显示、修复月份处理函数)
+- [x] 任务 20: 导出页 - 导出配置 (已完成：创建独立导出页面 /export，包含数据概览、可导出项目列表、导出设置、批量导出功能和预览区域)
+- [x] 任务 21: Loading 状态 (已完成：创建全局 loading.tsx、Spinner 组件、Skeleton 骨架屏组件)
+- [x] 任务 22: 错误处理 (已完成：创建 error.tsx、not-found.tsx、dashboard/error.tsx、ErrorAlert 组件)
+- [x] 任务 23: 响应式设计 (已完成：验证移动端适配，Header 添加移动端菜单)
+- [x] 任务 24: 主题切换 (已完成：创建 ThemeProvider、ThemeToggle 组件，支持浅色/深色/系统主题)
+- [x] 任务 25: 本地存储 (已完成：验证数据持久化，添加 StorageStatus 组件显示存储状态)
+- [x] 任务 26: 测试 - 代码规范 (已完成：运行 npm run lint，修复所有错误)
+- [x] 任务 27: 测试 - 构建 (已完成：TypeScript 检查通过，开发服务器运行正常)
+- [x] 任务 28: 测试 - 功能验证 (已完成：首页、主题切换、导航等功能测试通过)
+- [x] 任务 29: 消费者维度分析 - PPT构建器

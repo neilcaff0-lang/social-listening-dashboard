@@ -1,0 +1,47 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "SNS Analytics" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img [ref=e6]
+          - generic [ref=e8]: SNS Analytics
+        - navigation [ref=e9]:
+          - link "首页" [ref=e10] [cursor=pointer]:
+            - /url: /
+            - img [ref=e11]
+            - text: 首页
+          - link "数据导入" [ref=e14] [cursor=pointer]:
+            - /url: /upload
+            - img [ref=e15]
+            - text: 数据导入
+          - link "仪表盘" [ref=e18] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e19]
+            - text: 仪表盘
+          - link "维度分析" [ref=e21] [cursor=pointer]:
+            - /url: /analysis
+            - img [ref=e22]
+            - text: 维度分析
+        - generic [ref=e27]:
+          - button "切换到浅色主题" [ref=e28]:
+            - img [ref=e29]
+          - button "切换到深色主题" [ref=e35]:
+            - img [ref=e36]
+          - button "切换到系统主题" [ref=e38]:
+            - img [ref=e39]
+    - main [ref=e41]:
+      - generic [ref=e43]:
+        - img [ref=e46]
+        - heading "欢迎使用 SNS Analytics Dashboard" [level=1] [ref=e48]
+        - paragraph [ref=e49]: 帮助用户分析社交媒体数据，生成可视化图表，支持导出用于PPT汇报
+        - generic [ref=e50]:
+          - button "上传数据" [ref=e51]:
+            - img [ref=e52]
+            - text: 上传数据
+          - button "查看示例数据" [ref=e55]:
+            - img [ref=e56]
+            - text: 查看示例数据
+  - button "Open Next.js Dev Tools" [ref=e64] [cursor=pointer]:
+    - img [ref=e65]
+  - alert [ref=e68]

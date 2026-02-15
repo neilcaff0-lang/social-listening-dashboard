@@ -1,0 +1,402 @@
+{
+  "project": "SNS Analytics Dashboard",
+  "description": "SNS社交媒体数据分析看板，支持多维筛选和图表导出",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "项目基础配置",
+      "description": "初始化 Next.js 项目并配置基础依赖",
+      "steps": [
+        "初始化 Next.js 14 项目: npx create-next-app@latest --typescript --tailwind --eslint",
+        "安装图表库: npm install recharts echarts echarts-for-react",
+        "安装数据处理库: npm install xlsx zustand",
+        "安装 UI 组件库: npm install clsx tailwind-merge lucide-react",
+        "安装类型库: npm install @types/node @types/react @types/react-dom",
+        "创建 .env.local 模板文件",
+        "创建 lib/utils.ts 工具函数文件"
+      ],
+      "passes": true
+    },
+    {
+      "id": 2,
+      "title": "类型定义",
+      "description": "定义项目中使用的数据类型",
+      "steps": [
+        "创建 types/index.ts",
+        "定义 RawDataRow 接口",
+        "定义 Category 接口",
+        "定义 TimeFilter 接口",
+        "定义 FilterState 接口",
+        "定义 ChartDataPoint 接口"
+      ],
+      "passes": true
+    },
+    {
+      "id": 3,
+      "title": "数据解析模块",
+      "description": "实现 Excel 文件解析功能",
+      "steps": [
+        "创建 lib/excel-parser.ts",
+        "实现 parseExcelFile() 解析 Excel 文件",
+        "实现 getSheetNames() 获取所有 Sheet 名称",
+        "实现 parseSheetData() 解析单个 Sheet 数据",
+        "实现 validateData() 数据验证",
+        "创建测试用 sample-data.ts 包含示例数据"
+      ],
+      "passes": true
+    },
+    {
+      "id": 4,
+      "title": "数据处理模块",
+      "description": "实现数据筛选和处理逻辑",
+      "steps": [
+        "创建 lib/data-processor.ts",
+        "实现 filterData() 筛选数据",
+        "实现 getQuadrantData() 获取象限图数据",
+        "实现 getTrendData() 获取趋势图数据",
+        "实现 getTopKeywords() 获取 Top 关键词",
+        "实现 calculateStats() 计算统计指标"
+      ],
+      "passes": true
+    },
+    {
+      "id": 5,
+      "title": "状态管理",
+      "description": "使用 Zustand 管理全局状态",
+      "steps": [
+        "创建 store/useDataStore.ts",
+        "定义数据状态 (rawData, categories)",
+        "定义筛选状态 (filters)",
+        "定义 UI 状态 (sidebarOpen, loading)",
+        "实现 setRawData() 设置原始数据",
+        "实现 setFilters() 设置筛选条件",
+        "实现 clearFilters() 重置筛选"
+      ],
+      "passes": true
+    },
+    {
+      "id": 6,
+      "title": "首页 - UI 实现",
+      "description": "实现欢迎页面和导入入口",
+      "steps": [
+        "更新 app/page.tsx 首页",
+        "显示欢迎信息和产品介绍",
+        "添加「上传数据」按钮 (跳转 /upload)",
+        "添加「查看示例数据」按钮",
+        "创建 components/layout/Header.tsx 导航栏"
+      ],
+      "passes": true
+    },
+    {
+      "id": 7,
+      "title": "数据导入页 - 文件上传",
+      "description": "实现 Excel 文件上传功能",
+      "steps": [
+        "创建 app/upload/page.tsx 导入页",
+        "创建 components/upload/FileUploader.tsx 上传组件",
+        "实现文件拖拽上传",
+        "实现文件选择上传",
+        "显示上传进度",
+        "支持 .xlsx 和 .xls 格式"
+      ],
+      "passes": true
+    },
+    {
+      "id": 8,
+      "title": "数据导入页 - Sheet 选择和数据预览",
+      "description": "实现 Sheet 选择和数据预览功能",
+      "steps": [
+        "创建 components/upload/SheetSelector.tsx Sheet 选择器",
+        "创建 components/upload/DataPreview.tsx 数据预览表格",
+        "显示所有 Sheet 列表",
+        "显示选中 Sheet 的数据前 10 行",
+        "显示数据统计 (行数、列数)"
+      ],
+      "passes": true
+    },
+    {
+      "id": 9,
+      "title": "数据导入页 - 确认导入",
+      "description": "实现数据确认和存储功能",
+      "steps": [
+        "创建 components/upload/ImportConfirm.tsx 确认组件",
+        "实现批量导入所有 Sheet 数据",
+        "将数据存储到 Zustand store",
+        "实现数据持久化到 localStorage",
+        "导入成功后跳转到 /dashboard"
+      ],
+      "passes": true
+    },
+    {
+      "id": 10,
+      "title": "Dashboard - 基础布局",
+      "description": "实现仪表盘基础布局",
+      "steps": [
+        "创建 app/dashboard/page.tsx",
+        "创建 components/layout/Sidebar.tsx 侧边栏",
+        "创建 components/layout/MainContent.tsx 主内容区",
+        "实现响应式布局 (桌面端侧边栏，移动端折叠)",
+        "添加顶部导航栏"
+      ],
+      "passes": true
+    },
+    {
+      "id": 11,
+      "title": "Dashboard - 筛选组件",
+      "description": "实现筛选侧边栏组件",
+      "steps": [
+        "创建 components/filters/CategoryFilter.tsx 品类筛选",
+        "创建 components/filters/TimeFilter.tsx 时间筛选",
+        "创建 components/filters/QuadrantFilter.tsx 象限筛选",
+        "创建 components/filters/KeywordSearch.tsx 关键词搜索",
+        "实现多选/单选逻辑",
+        "实现筛选联动 (选择品类后更新时间范围)"
+      ],
+      "passes": true
+    },
+    {
+      "id": 12,
+      "title": "Dashboard - 四象限图",
+      "description": "实现四象限散点图",
+      "steps": [
+        "创建 components/charts/QuadrantChart.tsx",
+        "使用 ECharts 实现散点图",
+        "X轴: 声量 (TTL Buzz)",
+        "Y轴: 同比增速 (TTL Buzz YOY)",
+        "气泡大小: 搜索量",
+        "颜色: 按象限分类",
+        "实现悬停显示详情",
+        "实现点击跳转或高亮"
+      ],
+      "passes": true
+    },
+    {
+      "id": 13,
+      "title": "Dashboard - 趋势图",
+      "description": "实现趋势折线图",
+      "steps": [
+        "创建 components/charts/TrendChart.tsx",
+        "使用 Recharts 实现折线图",
+        "支持多品类趋势对比",
+        "X轴: 月份",
+        "Y轴: 声量/搜索量",
+        "支持 YOY/MOM 切换",
+        "实现图例筛选"
+      ],
+      "passes": true
+    },
+    {
+      "id": 14,
+      "title": "Dashboard - Top关键词排行",
+      "description": "实现关键词排行柱状图",
+      "steps": [
+        "创建 components/charts/TopKeywordsChart.tsx",
+        "使用 Recharts 实现横向柱状图",
+        "显示 Top 10 / Top 20 关键词",
+        "支持按声量/增速/搜索量排序",
+        "显示 YOY 增长标签",
+        "实现点击查看详情"
+      ],
+      "passes": true
+    },
+    {
+      "id": 15,
+      "title": "Dashboard - 数据表格",
+      "description": "实现数据明细表格",
+      "steps": [
+        "创建 components/charts/DataTable.tsx",
+        "使用原生 HTML table 实现",
+        "支持列排序",
+        "支持分页",
+        "支持搜索过滤",
+        "支持导出当前视图数据"
+      ],
+      "passes": true
+    },
+    {
+      "id": 16,
+      "title": "Dashboard - 统计卡片",
+      "description": "实现关键指标卡片",
+      "steps": [
+        "创建 components/ui/StatCard.tsx 统计卡片组件",
+        "显示总声量 (TTL Buzz)",
+        "显示平均 YOY",
+        "显示总搜索量",
+        "显示关键词数量"
+      ],
+      "passes": true
+    },
+    {
+      "id": 17,
+      "title": "Dashboard - 筛选联动",
+      "description": "实现筛选器与图表的联动",
+      "steps": [
+        "在 Dashboard 主页面整合所有筛选器",
+        "实现筛选状态变化触发图表更新",
+        "实现数据重新计算",
+        "优化筛选性能 (防抖)",
+        "显示当前筛选条件标签"
+      ],
+      "passes": true
+    },
+    {
+      "id": 18,
+      "title": "导出功能 - 图表导出",
+      "description": "实现图表导出为图片",
+      "steps": [
+        "创建 components/export/ChartExporter.tsx",
+        "实现 html2canvas 导出图表",
+        "支持 PNG 格式",
+        "支持调整图片尺寸",
+        "支持批量导出选中图表"
+      ],
+      "passes": true
+    },
+    {
+      "id": 19,
+      "title": "导出功能 - 数据导出",
+      "description": "实现数据导出为 CSV/Excel",
+      "steps": [
+        "创建 components/export/DataExporter.tsx",
+        "实现导出为 CSV 格式",
+        "实现导出为 Excel 格式 (使用 xlsx)",
+        "支持导出当前筛选的数据",
+        "支持选择导出列"
+      ],
+      "passes": true
+    },
+    {
+      "id": 20,
+      "title": "导出页 - 导出配置",
+      "description": "实现导出配置页面",
+      "steps": [
+        "创建 app/export/page.tsx 导出页",
+        "显示所有可导出图表列表",
+        "实现勾选要导出的图表",
+        "显示导出预览",
+        "实现批量导出功能"
+      ],
+      "passes": true
+    },
+    {
+      "id": 21,
+      "title": "Loading 状态",
+      "description": "添加加载状态指示",
+      "steps": [
+        "创建 app/loading.tsx 全局加载组件",
+        "创建 components/ui/Spinner.tsx 加载动画",
+        "创建 components/ui/Skeleton.tsx 骨架屏",
+        "在数据导入时显示加载",
+        "在图表生成时显示加载"
+      ],
+      "passes": true
+    },
+    {
+      "id": 22,
+      "title": "错误处理",
+      "description": "完善错误处理",
+      "steps": [
+        "创建 app/error.tsx 全局错误页面",
+        "创建 app/not-found.tsx 404 页面",
+        "创建 app/dashboard/error.tsx 仪表盘错误边界",
+        "文件上传失败提示",
+        "数据解析失败提示",
+        "图表生成失败提示"
+      ],
+      "passes": true
+    },
+    {
+      "id": 23,
+      "title": "响应式设计",
+      "description": "适配移动端",
+      "steps": [
+        "移动端侧边栏改为抽屉式",
+        "图表自适应屏幕宽度",
+        "筛选器改为折叠面板",
+        "表格支持横向滚动",
+        "优化触摸交互"
+      ],
+      "passes": true
+    },
+    {
+      "id": 24,
+      "title": "主题切换",
+      "description": "支持亮色/暗色主题",
+      "steps": [
+        "创建 components/theme/ThemeProvider.tsx",
+        "实现主题切换按钮",
+        "适配图表颜色主题",
+        "适配 UI 组件主题",
+        "记住用户主题偏好"
+      ],
+      "passes": true
+    },
+    {
+      "id": 25,
+      "title": "本地存储",
+      "description": "实现数据本地持久化",
+      "steps": [
+        "使用 localStorage 保存上传的数据",
+        "实现数据自动恢复",
+        "实现数据清理功能",
+        "显示数据存储状态"
+      ],
+      "passes": true
+    },
+    {
+      "id": 26,
+      "title": "测试 - 代码规范",
+      "description": "确保代码符合规范",
+      "steps": [
+        "运行 npm run lint 检查代码规范",
+        "修复 lint 警告和错误",
+        "确保 TypeScript 类型正确"
+      ],
+      "passes": true
+    },
+    {
+      "id": 27,
+      "title": "测试 - 构建",
+      "description": "确保项目可以构建",
+      "steps": [
+        "运行 npm run build",
+        "修复构建错误",
+        "优化打包体积"
+      ],
+      "passes": true
+    },
+    {
+      "id": 28,
+      "title": "测试 - 功能验证",
+      "description": "完整功能测试",
+      "steps": [
+        "测试文件上传流程",
+        "测试所有筛选功能",
+        "测试所有图表显示",
+        "测试导出功能",
+        "测试响应式布局"
+      ],
+      "passes": true
+    },
+    {
+      "id": 29,
+      "title": "消费者维度分析 - PPT构建器",
+      "description": "实现PPT幻灯片构建功能，支持拖拽生成分析图表",
+      "steps": [
+        "创建 app/analysis/page.tsx 分析页面",
+        "创建 components/analysis/DimensionSelector.tsx 维度选择器（场景/功能/材质/版型/设计）",
+        "创建 components/analysis/DraggableList.tsx 可拖拽关键词列表",
+        "创建 components/analysis/PPTBuilder.tsx PPT构建主组件（4象限布局）",
+        "创建 components/analysis/QuadrantSlot.tsx 象限放置区域（支持拖拽接收）",
+        "创建 components/analysis/MiniChart.tsx 小图表组件（柱状图+折线图）",
+        "创建 components/analysis/AIInsight.tsx AI洞察分析面板",
+        "创建 components/analysis/PageManager.tsx 多页面管理器（支持4页暂存）",
+        "创建 components/analysis/PlayMode.tsx 播放模式（全屏幻灯片展示）",
+        "实现拖拽功能（react-beautiful-dnd 或原生 HTML5 DnD）",
+        "实现页面暂存和切换功能",
+        "添加播放模式支持"
+      ],
+      "passes": true
+    }
+  ]
+}
