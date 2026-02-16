@@ -6,6 +6,8 @@ import { useDataStore } from "@/store/useDataStore";
 import { RawDataRow } from "@/types";
 import { X, ChevronLeft, ChevronRight, Play, TrendingUp, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getMonthNumber } from "@/lib/data-processor";
+import DOMPurify from "dompurify";
 import {
   ComposedChart,
   Bar,
@@ -55,21 +57,21 @@ function KeywordCard({
 
     const data = rawData
       .filter(row => row.KEYWORDS === keyword.name && row.CATEGORY === category)
-      .map(row => ({
-        month: row.MONTH || '',
-        year: row.YEAR || 0,
-        buzz: row.TTL_Buzz || 0,
-        yoy: (row.TTL_Buzz_YOY || 0) * 100, // 转换为百分比
-      }))
-      .sort((a, b) => {
-        // 先按年份排序，再按月份排序
-        if (a.year !== b.year) return a.year - b.year;
-        // 处理月份格式（支持 "1月"、"1"、"01" 等格式）
-        const getMonthNum = (m: string) => {
-          const match = m.match(/^(\d+)/);
-          return match ? parseInt(match[1], 10) : 0;
+      .map(row => {
+        const monthValue = row.MONTH || '';
+        const monthNum = getMonthNumber(monthValue);
+        return {
+          month: monthValue,
+          monthNum: monthNum,
+          year: row.YEAR || 0,
+          buzz: row.TTL_Buzz || 0,
+          yoy: (row.TTL_Buzz_YOY || 0) * 100, // 转换为百分比
         };
-        return getMonthNum(a.month) - getMonthNum(b.month);
+      })
+      .sort((a, b) => {
+        // 先按年份排序，再按月份数字排序
+        if (a.year !== b.year) return a.year - b.year;
+        return a.monthNum - b.monthNum;
       });
 
     return data;
@@ -362,9 +364,15 @@ export default function PlayMode({
                   <p
                     className="text-sm text-neutral-600 leading-relaxed"
                     dangerouslySetInnerHTML={{
-                      __html: page.insights.core
-                        .replace(/<span class="insight-tag[^"]*">[^<]*<\/span>/g, "")
-                        .replace(/<span class="insight-highlight"/g, `<span style="color: ${primaryColor.primary}; font-weight: 600"`)
+                      __html: DOMPurify.sanitize(
+                        page.insights.core
+                          .replace(/<span class="insight-tag[^"]*">[^<]*<\/span>/g, "")
+                          .replace(/<span class="insight-highlight"/g, `<span style="color: ${primaryColor.primary}; font-weight: 600"`),
+                        {
+                          ALLOWED_TAGS: ['span'],
+                          ALLOWED_ATTR: ['style', 'class']
+                        }
+                      )
                     }}
                   />
                 )}

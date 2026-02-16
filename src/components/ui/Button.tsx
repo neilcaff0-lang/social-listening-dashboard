@@ -1,38 +1,69 @@
 "use client";
 
 import { ButtonHTMLAttributes, forwardRef } from "react";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from "@/lib/utils";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline" | "ghost" | "secondary";
-  size?: "default" | "sm" | "lg" | "icon";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
+  size?: "sm" | "md" | "lg";
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "default", ...props }, ref) => {
+  ({ className, variant = "primary", size = "md", ...props }, ref) => {
     const variants = {
-      default: "bg-blue-600 text-white hover:bg-blue-700",
-      outline: "border border-neutral-300 bg-transparent hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800",
-      ghost: "bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800",
-      secondary: "bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-700",
+      primary: `
+        bg-gradient-to-r from-[#6C5CE7] to-[#a29bfe]
+        text-white
+        shadow-lg shadow-[#6C5CE7]/25
+        hover:shadow-xl hover:shadow-[#6C5CE7]/30
+        hover:-translate-y-0.5
+        active:translate-y-0 active:shadow-lg
+      `,
+      secondary: `
+        bg-[#F1F5F9]
+        text-[#0F1419]
+        border border-[#E2E8F0]
+        shadow-sm
+        hover:bg-[#E2E8F0]
+        hover:border-[#CBD5E0]
+      `,
+      outline: `
+        bg-transparent
+        text-[#6C5CE7]
+        border-2 border-[#6C5CE7]
+        hover:bg-[#6C5CE7]/5
+        hover:border-[#5B4BD5]
+        hover:text-[#5B4BD5]
+      `,
+      ghost: `
+        bg-transparent
+        text-[#718096]
+        hover:bg-[#F1F5F9]
+        hover:text-[#0F1419]
+      `,
+      danger: `
+        bg-[#EF4444]
+        text-white
+        shadow-lg shadow-red-500/25
+        hover:bg-[#DC2626]
+        hover:shadow-xl
+      `,
     };
 
     const sizes = {
-      default: "h-10 px-4 py-2",
-      sm: "h-9 rounded-md px-3",
-      lg: "h-11 rounded-md px-8",
-      icon: "h-10 w-10",
+      sm: "h-8 px-3 text-xs rounded-lg gap-1.5",
+      md: "h-10 px-4 text-sm rounded-xl gap-2",
+      lg: "h-12 px-6 text-base rounded-xl gap-2.5",
     };
 
     return (
       <button
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-blue-400",
+          "inline-flex items-center justify-center font-semibold",
+          "transition-all duration-200 ease-out",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6C5CE7] focus-visible:ring-offset-2",
+          "disabled:pointer-events-none disabled:opacity-50",
+          "cursor-pointer",
           variants[variant],
           sizes[size],
           className
