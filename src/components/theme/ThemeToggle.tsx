@@ -33,7 +33,7 @@ export function ThemeToggle({ className, size = 'md' }: ThemeToggleProps) {
 
   return (
     <div
-      className={`inline-flex items-center gap-1 rounded-xl bg-[#F5F7FA] p-1 ${className || ''}`}
+      className={`inline-flex items-center gap-1 rounded-xl bg-[#F1F5F9] p-1 ${className || ''}`}
     >
       {themes.map(({ value, icon: Icon, label }) => (
         <button
@@ -44,7 +44,7 @@ export function ThemeToggle({ className, size = 'md' }: ThemeToggleProps) {
             ${sizeClasses[size]}
             ${theme === value
               ? 'bg-white text-[#6C5CE7] shadow-sm'
-              : 'text-[#9AA0AB] hover:text-[#5A6170]'
+              : 'text-[#A0AEC0] hover:text-[#718096]'
             }
           `}
           title={label}
@@ -72,7 +72,7 @@ export function ThemeDropdown({ className }: { className?: string }) {
   return (
     <div className={`relative group ${className || ''}`}>
       <button
-        className="flex items-center gap-2 rounded-xl bg-[#F5F7FA] px-3 py-2 text-sm font-medium text-[#5A6170] hover:text-[#1A1D23] transition-colors"
+        className="flex items-center gap-2 rounded-xl bg-[#F1F5F9] px-3 py-2 text-sm font-medium text-[#4A5568] hover:text-[#0F1419] transition-colors"
         aria-label="切换主题"
       >
         <CurrentIcon className="h-4 w-4" />
@@ -80,7 +80,7 @@ export function ThemeDropdown({ className }: { className?: string }) {
       </button>
 
       {/* 下拉菜单 */}
-      <div className="absolute right-0 top-full z-50 mt-1 hidden w-40 rounded-xl border border-[#E8ECF1] bg-white py-1 shadow-lg group-hover:block">
+      <div className="absolute right-0 top-full z-50 mt-1 hidden w-40 rounded-xl border border-[#E2E8F0] bg-white py-1 shadow-lg group-hover:block">
         {themes.map(({ value, icon: Icon, label }) => (
           <button
             key={value}
@@ -89,7 +89,7 @@ export function ThemeDropdown({ className }: { className?: string }) {
               flex w-full items-center gap-2 px-4 py-2 text-sm transition-colors
               ${theme === value
                 ? 'bg-gradient-to-r from-[#6C5CE7]/10 to-[#a29bfe]/5 text-[#6C5CE7]'
-                : 'text-[#5A6170] hover:bg-[#F5F7FA] hover:text-[#1A1D23]'
+                : 'text-[#4A5568] hover:bg-[#F8FAFC] hover:text-[#0F1419]'
               }
             `}
           >

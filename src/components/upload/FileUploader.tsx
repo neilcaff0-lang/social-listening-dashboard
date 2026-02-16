@@ -19,6 +19,7 @@ export function FileUploader({ onFileSelect }: FileUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 支持的文件格式
+  const ALLOWED_EXTENSIONS = ['xlsx', 'xls'];
   const acceptedExtensions = '.xlsx,.xls';
 
   // 处理拖拽进入
@@ -66,7 +67,7 @@ export function FileUploader({ onFileSelect }: FileUploaderProps) {
   const processFile = async (file: File) => {
     // 验证文件类型
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
-    if (!fileExtension || !['xlsx', 'xls'].includes(fileExtension)) {
+    if (!fileExtension || !ALLOWED_EXTENSIONS.includes(fileExtension)) {
       setError('请上传 .xlsx 或 .xls 格式的 Excel 文件');
       return;
     }

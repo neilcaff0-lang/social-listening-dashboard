@@ -359,7 +359,7 @@ export function getAvailableYears(data: RawDataRow[]): number[] {
  * @param month - 月份（可以是字符串如 '1月'、'01'、'January'，或数字）
  * @returns 月份数字（1-12）
  */
-function getMonthNumber(month: string | number): number {
+export function getMonthNumber(month: string | number): number {
   if (!month && month !== 0) return 0;
 
   // 如果已经是数字，直接返回

@@ -3,6 +3,7 @@ interface RawDataRow {
   YEAR: number;
   MONTH: string;
   CATEGORY: string;
+  SUBCATEGORY?: string; // 细分类目（仅裤子、包、鞋有）
   KEYWORDS: string;
   小红书_Buzz: number;
   抖音_Buzz: number;
@@ -15,6 +16,10 @@ interface RawDataRow {
   抖音_SEARCH_vs_Dec: number;
   象限图: string;
 }
+
+// 有细分类目的品类
+const SUBCATEGORY_CATEGORIES = ['裤子', '包', '鞋'] as const;
+type SubcategoryCategory = typeof SUBCATEGORY_CATEGORIES[number];
 
 // 品类
 interface Category {
@@ -61,4 +66,7 @@ export type {
   FilterState,
   ChartDataPoint,
   SheetInfo,
+  SubcategoryCategory,
 };
+
+export { SUBCATEGORY_CATEGORIES };

@@ -31,24 +31,24 @@ export default function KeywordSearch() {
   };
 
   return (
-    <div className="space-y-1.5">
-      <label className="text-xs font-semibold text-[#5A6170]">关键词搜索</label>
+    <div className="space-y-2">
+      <label className="filter-label">关键词搜索</label>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9AA0AB]" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[hsl(var(--muted-foreground))]" />
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="输入关键词搜索..."
-          className="w-full rounded-xl border border-[#E8ECF1] bg-white py-2.5 pl-9 pr-8 text-sm placeholder:text-[#9AA0AB] focus:border-[#6C5CE7] focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/20 transition-all"
+          className="input pl-9 pr-8"
         />
         {inputValue && (
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1 hover:bg-[#F5F7FA] transition-colors"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1 hover:bg-[hsl(var(--accent))] transition-colors"
           >
-            <X className="h-3.5 w-3.5 text-[#9AA0AB]" />
+            <X className="h-3.5 w-3.5 text-[hsl(var(--muted-foreground))]" />
           </button>
         )}
       </div>

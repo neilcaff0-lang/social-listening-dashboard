@@ -25,7 +25,7 @@ import { clsx } from "clsx";
 import { RawDataRow } from "@/types";
 import Link from "next/link";
 import ModuleNav from "@/components/layout/ModuleNav";
-import TopBar from "@/components/layout/Header";
+import TopBar from "@/components/layout/TopBar";
 
 // 导出配置类型
 interface ExportConfig {
@@ -563,12 +563,12 @@ export default function ExportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* 左侧导航 */}
       <ModuleNav />
 
       {/* 右侧内容区 */}
-      <div style={{ marginLeft: '220px' }} className="min-h-screen flex flex-col">
+      <div style={{ marginLeft: '240px' }} className="min-h-screen flex flex-col">
         {/* 顶部栏 */}
         <TopBar />
 

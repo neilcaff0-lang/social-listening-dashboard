@@ -3,7 +3,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
 import { Database, Trash2, CheckCircle } from 'lucide-react';
 import { useDataStore } from '@/store/useDataStore';
-import { cn } from './Button';
+import { cn } from '@/lib/utils';
 
 interface StorageStatusProps {
   className?: string;
@@ -55,16 +55,16 @@ export function StorageStatus({ className }: StorageStatusProps) {
   if (!mounted) {
     return (
       <div className={cn(
-        'rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900',
+        'rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5',
         className
       )}>
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-800">
-            <Database className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E2E8F0]">
+            <Database className="h-5 w-5 text-[#A0AEC0]" />
           </div>
           <div className="flex-1">
-            <h3 className="font-medium text-neutral-900 dark:text-neutral-50">数据存储状态</h3>
-            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">加载中...</p>
+            <h3 className="font-semibold text-[#0F1419]">数据存储状态</h3>
+            <p className="mt-1 text-sm text-[#A0AEC0]">加载中...</p>
           </div>
         </div>
       </div>
@@ -74,65 +74,65 @@ export function StorageStatus({ className }: StorageStatusProps) {
   return (
     <div
       className={cn(
-        'rounded-lg border p-4',
+        'rounded-2xl border p-5',
         hasData
-          ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20'
-          : 'border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900',
+          ? 'border-[#10B981]/30 bg-[#10B981]/5'
+          : 'border-[#E2E8F0] bg-[#F8FAFC]',
         className
       )}
     >
       <div className="flex items-start gap-3">
         <div
           className={cn(
-            'flex h-10 w-10 items-center justify-center rounded-lg',
+            'flex h-10 w-10 items-center justify-center rounded-xl',
             hasData
-              ? 'bg-green-100 dark:bg-green-900/30'
-              : 'bg-neutral-100 dark:bg-neutral-800'
+              ? 'bg-[#10B981]/10'
+              : 'bg-[#E2E8F0]'
           )}
         >
           {hasData ? (
-            <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+            <CheckCircle className="h-5 w-5 text-[#10B981]" />
           ) : (
-            <Database className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+            <Database className="h-5 w-5 text-[#A0AEC0]" />
           )}
         </div>
 
-        <div className="flex-1">
-          <h3 className="font-medium text-neutral-900 dark:text-neutral-50">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-[#0F1419]">
             数据存储状态
           </h3>
 
           {hasData ? (
-            <div className="mt-2 space-y-1 text-sm">
+            <div className="mt-3 space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-neutral-500 dark:text-neutral-400">存储大小:</span>
-                <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                <span className="text-[#718096]">存储大小:</span>
+                <span className="font-medium text-[#0F1419]">
                   {storageInfo.size}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500 dark:text-neutral-400">数据行数:</span>
-                <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                <span className="text-[#718096]">数据行数:</span>
+                <span className="font-medium text-[#0F1419]">
                   {rawData.length.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500 dark:text-neutral-400">品类数量:</span>
-                <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                <span className="text-[#718096]">品类数量:</span>
+                <span className="font-medium text-[#0F1419]">
                   {categories.length}
                 </span>
               </div>
               {storageInfo.lastUpdated && (
                 <div className="flex justify-between">
-                  <span className="text-neutral-500 dark:text-neutral-400">最后更新:</span>
-                  <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                  <span className="text-[#718096]">最后更新:</span>
+                  <span className="font-medium text-[#0F1419]">
                     {storageInfo.lastUpdated}
                   </span>
                 </div>
               )}
             </div>
           ) : (
-            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+            <p className="mt-1 text-sm text-[#A0AEC0]">
               暂无本地存储的数据
             </p>
           )}
@@ -140,7 +140,7 @@ export function StorageStatus({ className }: StorageStatusProps) {
           {hasData && (
             <button
               onClick={handleClearStorage}
-              className="mt-3 flex items-center gap-1.5 rounded-md px-2 py-1 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+              className="mt-4 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-[#EF4444] transition-colors hover:bg-[#EF4444]/10"
             >
               <Trash2 className="h-4 w-4" />
               清除数据
@@ -160,10 +160,10 @@ export function StorageIndicator({ className }: StorageStatusProps) {
   return (
     <div
       className={cn(
-        'flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium',
+        'flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold',
         hasData
-          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-          : 'bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400',
+          ? 'bg-[#10B981]/10 text-[#10B981]'
+          : 'bg-[#F1F5F9] text-[#A0AEC0]',
         className
       )}
       title={hasData ? `已存储 ${rawData.length.toLocaleString()} 条数据` : '无本地数据'}

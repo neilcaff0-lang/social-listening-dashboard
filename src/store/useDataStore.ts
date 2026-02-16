@@ -63,7 +63,10 @@ export const useDataStore = create<DataState>()(
       // 设置暂存筛选状态
       setPendingFilters: (newFilters) =>
         set((state) => ({
-          pendingFilters: { ...state.filters, ...newFilters },
+          pendingFilters: {
+            ...(state.pendingFilters ?? state.filters),
+            ...newFilters,
+          },
         })),
 
       // 应用暂存的筛选状态

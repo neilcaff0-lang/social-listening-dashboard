@@ -24,7 +24,10 @@ const MONTH_DISPLAY_NAMES: Record<string, string> = {
 };
 
 export default function TimeFilter() {
-  const { rawData, filters, setPendingFilters, setFilters } = useDataStore();
+  const { rawData, filters, pendingFilters, setPendingFilters, setFilters } = useDataStore();
+
+  // 使用 pendingFilters 或当前 filters 来显示状态
+  const displayFilters = pendingFilters ?? filters;
 
   // 从数据中动态获取可用的年份
   const availableYears = useMemo(() => {
@@ -34,7 +37,7 @@ export default function TimeFilter() {
 
   // 自动选择第一个可用年份（如果当前没有选择年份）
   useEffect(() => {
-    if (availableYears.length > 0 && filters.timeFilter.year === undefined) {
+    if (availableYears.length > 0 && displayFilters.timeFilter.year === undefined) {
       const defaultYear = availableYears[0];
       const defaultMonths = Array.from(
         new Set(
@@ -51,7 +54,7 @@ export default function TimeFilter() {
 
   // 从数据中动态获取可用的月份（基于选中的年份）
   const availableMonths = useMemo(() => {
-    const selectedYear = filters.timeFilter.year;
+    const selectedYear = displayFilters.timeFilter.year;
     if (!selectedYear) return [];
     const months = new Set(
       rawData
@@ -73,7 +76,7 @@ export default function TimeFilter() {
   };
 
   const handleMonthChange = (month: string, checked: boolean) => {
-    const currentMonths = filters.timeFilter.months;
+    const currentMonths = displayFilters.timeFilter.months;
     if (checked) {
       setPendingFilters({
         timeFilter: { ...filters.timeFilter, months: [...currentMonths, month] },
@@ -91,36 +94,36 @@ export default function TimeFilter() {
   const handleSelectAllMonths = (checked: boolean) => {
     if (checked) {
       setPendingFilters({
-        timeFilter: { ...filters.timeFilter, months: availableMonths },
+        timeFilter: { ...displayFilters.timeFilter, months: availableMonths },
       });
     } else {
       setPendingFilters({
-        timeFilter: { ...filters.timeFilter, months: [] },
+        timeFilter: { ...displayFilters.timeFilter, months: [] },
       });
     }
   };
 
   const allMonthsSelected =
     availableMonths.length > 0 &&
-    filters.timeFilter.months.length === availableMonths.length;
+    displayFilters.timeFilter.months.length === availableMonths.length;
   const someMonthsSelected =
-    filters.timeFilter.months.length > 0 && !allMonthsSelected;
+    displayFilters.timeFilter.months.length > 0 && !allMonthsSelected;
 
-  const selectedYear = filters.timeFilter.year;
+  const selectedYear = displayFilters.timeFilter.year;
 
   return (
-    <div className="space-y-1.5">
-      <label className="text-xs font-semibold text-[#5A6170]">时间筛选</label>
-      <div className="rounded-xl border border-[#E8ECF1] bg-white p-3">
+    <div className="space-y-2">
+      <label className="filter-label">时间筛选</label>
+      <div className="filter-panel">
         {availableYears.length > 0 ? (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {/* 年份选择 */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-medium text-[#9AA0AB] uppercase tracking-wide">年份</label>
+            <div className="space-y-2">
+              <label className="text-[11px] font-medium text-[hsl(var(--muted-foreground))] uppercase tracking-wide">年份</label>
               <select
                 value={selectedYear}
                 onChange={(e) => handleYearChange(Number(e.target.value))}
-                className="w-full rounded-lg border border-[#E8ECF1] bg-white px-3 py-2 text-sm focus:border-[#6C5CE7] focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/20 transition-all"
+                className="input"
               >
                 {availableYears.map((year) => (
                   <option key={year} value={year}>
@@ -131,13 +134,13 @@ export default function TimeFilter() {
             </div>
 
             {/* 月份多选 */}
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-[10px] font-medium text-[#9AA0AB] uppercase tracking-wide">月份</label>
+                <label className="text-[11px] font-medium text-[hsl(var(--muted-foreground))] uppercase tracking-wide">月份</label>
                 <button
                   type="button"
                   onClick={() => handleSelectAllMonths(!allMonthsSelected)}
-                  className="text-[10px] font-medium text-[#6C5CE7] hover:text-[#5B4BD5] transition-colors"
+                  className="text-[11px] font-medium text-[hsl(var(--primary))] hover:text-[hsl(var(--primary)/0.8)] transition-colors"
                 >
                   {allMonthsSelected ? '取消全选' : '全选'}
                 </button>
@@ -148,7 +151,7 @@ export default function TimeFilter() {
                     <Checkbox
                       key={month}
                       label={MONTH_DISPLAY_NAMES[month] || month}
-                      checked={filters.timeFilter.months.includes(month)}
+                      checked={displayFilters.timeFilter.months.includes(month)}
                       onCheckedChange={(checked) =>
                         handleMonthChange(month, checked ?? false)
                       }
@@ -156,12 +159,12 @@ export default function TimeFilter() {
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-[#9AA0AB]">该年份无可用月份</p>
+                <p className="text-xs text-[hsl(var(--muted-foreground))]">该年份无可用月份</p>
               )}
             </div>
           </div>
         ) : (
-          <p className="text-sm text-[#9AA0AB]">暂无时间数据</p>
+          <p className="text-sm text-[hsl(var(--muted-foreground))]">暂无时间数据</p>
         )}
       </div>
     </div>

@@ -1,8 +1,10 @@
 "use client";
 
 import { ReactNode } from "react";
-import { LucideIcon, ArrowUp, ArrowDown, Minus } from "lucide-react";
+import { LucideIcon, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+type ColorScheme = "blue" | "purple" | "green" | "orange";
 
 interface StatCardProps {
   title: string;
@@ -11,16 +13,13 @@ interface StatCardProps {
   growthRate?: number;
   icon?: LucideIcon;
   suffix?: ReactNode;
+  color?: ColorScheme;
 }
 
 function formatCompactNumber(num: number): string {
   if (num === undefined || num === null) return "0";
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`;
-  }
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}K`;
-  }
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
   return num.toLocaleString("en-US");
 }
 
@@ -29,6 +28,34 @@ function formatPercent(num: number): string {
   return `${num >= 0 ? "+" : ""}${num.toFixed(1)}%`;
 }
 
+// 简洁现代的配色方案
+const colorConfig: Record<ColorScheme, {
+  iconBg: string;
+  iconColor: string;
+  accent: string;
+}> = {
+  blue: {
+    iconBg: "bg-blue-50",
+    iconColor: "text-blue-600",
+    accent: "bg-blue-500",
+  },
+  purple: {
+    iconBg: "bg-violet-50",
+    iconColor: "text-violet-600",
+    accent: "bg-violet-500",
+  },
+  green: {
+    iconBg: "bg-emerald-50",
+    iconColor: "text-emerald-600",
+    accent: "bg-emerald-500",
+  },
+  orange: {
+    iconBg: "bg-amber-50",
+    iconColor: "text-amber-600",
+    accent: "bg-amber-500",
+  },
+};
+
 export default function StatCard({
   title,
   value,
@@ -36,6 +63,7 @@ export default function StatCard({
   growthRate,
   icon: Icon,
   suffix,
+  color = "blue",
 }: StatCardProps) {
   const displayValue =
     typeof value === "number" && formatNumber
@@ -44,59 +72,64 @@ export default function StatCard({
 
   const isPositive = growthRate !== undefined && growthRate > 0;
   const isNegative = growthRate !== undefined && growthRate < 0;
+  const colors = colorConfig[color];
 
   return (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-2xl bg-white p-6",
-        "shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)]",
-        "transition-all duration-300 ease-out cursor-default",
-        "hover:shadow-[0_8px_25px_rgba(0,0,0,0.1)] hover:-translate-y-1",
-        "border border-transparent hover:border-[#6C5CE7]/20"
-      )}
-    >
-      {/* 背景装饰 */}
-      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-[#6C5CE7]/5 to-[#a29bfe]/10 blur-2xl" />
+    <div className="group relative bg-white rounded-xl border border-gray-100 p-5 transition-all duration-200 hover:shadow-lg hover:border-gray-200">
+      {/* 左侧装饰条 */}
+      <div className={cn("absolute left-0 top-4 bottom-4 w-1 rounded-r-full", colors.accent)} />
 
-      {/* 标题行 */}
-      <div className="relative flex items-center gap-3 mb-4">
-        {Icon && (
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#6C5CE7] to-[#a29bfe] shadow-lg shadow-[#6C5CE7]/25">
-            <Icon className="h-5 w-5 text-white" />
-          </div>
-        )}
-        <span className="text-sm font-medium text-[#5A6170]">
-          {title}
-        </span>
-      </div>
+      <div className="pl-3">
+        <div className="flex items-start justify-between">
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-gray-500">{title}</p>
+            <p className="mt-1 text-2xl font-semibold text-gray-900 tracking-tight">
+              {displayValue}
+            </p>
 
-      {/* 数值 */}
-      <div className="relative text-[32px] font-bold text-[#1A1D23] leading-none tabular-nums mb-3">
-        {displayValue}
-      </div>
-
-      {/* 增长率 */}
-      {growthRate !== undefined && (
-        <div className="relative flex items-center gap-2">
-          <div
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold",
-              isPositive && "bg-[#00C48C]/10 text-[#00C48C]",
-              isNegative && "bg-[#FF6B6B]/10 text-[#FF6B6B]",
-              !isPositive && !isNegative && "bg-[#9AA0AB]/10 text-[#9AA0AB]"
+            {growthRate !== undefined && (
+              <div className="mt-2 flex items-center gap-2">
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full",
+                    isPositive
+                      ? "bg-emerald-50 text-emerald-700"
+                      : isNegative
+                      ? "bg-red-50 text-red-700"
+                      : "bg-gray-100 text-gray-600"
+                  )}
+                >
+                  {isPositive ? (
+                    <TrendingUp className="h-3 w-3" />
+                  ) : isNegative ? (
+                    <TrendingDown className="h-3 w-3" />
+                  ) : (
+                    <Minus className="h-3 w-3" />
+                  )}
+                  {formatPercent(growthRate)}
+                </span>
+                <span className="text-xs text-gray-400">vs 上月</span>
+              </div>
             )}
-          >
-            {isPositive ? <ArrowUp className="h-4 w-4" /> :
-             isNegative ? <ArrowDown className="h-4 w-4" /> :
-             <Minus className="h-4 w-4" />}
-            <span>{formatPercent(Math.abs(growthRate))}</span>
-          </div>
-          <span className="text-xs text-[#9AA0AB]">同比变化</span>
-        </div>
-      )}
 
-      {/* 额外内容 */}
-      {suffix && <div className="relative mt-3">{suffix}</div>}
+            {suffix && (
+              <p className="mt-2 text-xs text-gray-400">{suffix}</p>
+            )}
+          </div>
+
+          {Icon && (
+            <div
+              className={cn(
+                "flex h-10 w-10 items-center justify-center rounded-lg shrink-0 transition-colors",
+                colors.iconBg,
+                colors.iconColor
+              )}
+            >
+              <Icon className="h-5 w-5" />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

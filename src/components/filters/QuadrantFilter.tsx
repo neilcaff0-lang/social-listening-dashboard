@@ -9,32 +9,34 @@ const QUADRANTS = [
     id: '第一象限',
     label: '第一象限',
     description: '高声量高增长',
-    color: 'bg-[#00C48C]',
+    color: 'bg-[hsl(var(--success))]',
   },
   {
     id: '第二象限',
     label: '第二象限',
     description: '低声量高增长',
-    color: 'bg-[#6C5CE7]',
+    color: 'bg-[hsl(var(--primary))]',
   },
   {
     id: '第三象限',
     label: '第三象限',
     description: '低声量低增长',
-    color: 'bg-[#9AA0AB]',
+    color: 'bg-[hsl(var(--muted-foreground))]',
   },
   {
     id: '第四象限',
     label: '第四象限',
     description: '高声量低增长',
-    color: 'bg-[#FAAD14]',
+    color: 'bg-[hsl(var(--warning))]',
   },
 ];
 
 export default function QuadrantFilter() {
-  const { filters, setPendingFilters } = useDataStore();
+  const { filters, pendingFilters, setPendingFilters } = useDataStore();
 
-  const selectedQuadrants = filters.quadrants;
+  // 使用 pendingFilters 或当前 filters 来显示状态
+  const displayFilters = pendingFilters ?? filters;
+  const selectedQuadrants = displayFilters.quadrants;
 
   const handleQuadrantChange = (quadrantId: string, checked: boolean) => {
     if (checked) {
@@ -57,10 +59,10 @@ export default function QuadrantFilter() {
   const someSelected = selectedQuadrants.length > 0 && !allSelected;
 
   return (
-    <div className="space-y-1.5">
-      <label className="text-xs font-semibold text-[#5A6170]">象限筛选</label>
-      <div className="rounded-xl border border-[#E8ECF1] bg-white p-3">
-        <div className="space-y-2">
+    <div className="space-y-2">
+      <label className="filter-label">象限筛选</label>
+      <div className="filter-panel">
+        <div className="space-y-3">
           {/* 全选 */}
           <Checkbox
             label="全选"
@@ -68,14 +70,14 @@ export default function QuadrantFilter() {
             indeterminate={someSelected}
             onCheckedChange={handleSelectAll}
           />
-          <div className="border-t border-[#E8ECF1] pt-2" />
+          <div className="divider" />
 
           {/* 象限列表 */}
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {QUADRANTS.map((quadrant) => (
               <div
                 key={quadrant.id}
-                className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-[#F5F7FA] transition-colors"
+                className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-[hsl(var(--accent))] transition-colors"
               >
                 <Checkbox
                   label={quadrant.label}
@@ -84,7 +86,7 @@ export default function QuadrantFilter() {
                     handleQuadrantChange(quadrant.id, checked ?? false)
                   }
                 />
-                <span className="text-[10px] text-[#9AA0AB] ml-auto">
+                <span className="text-[11px] text-[hsl(var(--muted-foreground))] ml-auto">
                   {quadrant.description}
                 </span>
                 <span

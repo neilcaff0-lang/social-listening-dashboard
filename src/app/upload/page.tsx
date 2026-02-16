@@ -10,10 +10,11 @@ import { ImportConfirm } from '@/components/upload/ImportConfirm';
 import { parseSheetData, validateData } from '@/lib/excel-parser';
 import { useDataStore } from '@/store/useDataStore';
 import { Button } from '@/components/ui/Button';
+import { ErrorAlert } from '@/components/ui/ErrorAlert';
 import { SheetInfo } from '@/types';
 import * as XLSX from 'xlsx';
 import ModuleNav from '@/components/layout/ModuleNav';
-import TopBar from '@/components/layout/Header';
+import TopBar from '@/components/layout/TopBar';
 
 // 上传流程步骤
 type UploadStep = 'upload' | 'sheet-select' | 'preview' | 'confirm';
@@ -33,6 +34,7 @@ export default function UploadPage() {
   const [sheetInfos, setSheetInfos] = useState<SheetInfo[]>([]);
   const [selectedSheets, setSelectedSheets] = useState<string[]>([]);
   const [isImporting, setIsImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
 
   // 文件回调
   const handleFileSelect = useCallback(
@@ -75,6 +77,7 @@ export default function UploadPage() {
     if (!workbook || selectedSheets.length === 0) return;
 
     setIsImporting(true);
+    setImportError(null);
     try {
       const allData: Parameters<typeof setRawData>[0] = [];
       const categories: Parameters<typeof setRawData>[1] = [];
@@ -98,6 +101,8 @@ export default function UploadPage() {
       setRawData(allData, categories, sheetInfos);
       router.push('/dashboard');
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '导入过程中发生未知错误';
+      setImportError(errorMessage);
       console.error('导入失败:', error);
     } finally {
       setIsImporting(false);
@@ -171,6 +176,18 @@ export default function UploadPage() {
                 )}
               </div>
             </div>
+
+            {/* 错误提示 */}
+            {importError && (
+              <div className="mb-6 w-full">
+                <ErrorAlert
+                  title="导入失败"
+                  message={importError}
+                  type="error"
+                  onClose={() => setImportError(null)}
+                />
+              </div>
+            )}
 
             {/* 步骤内容卡片 */}
             <div className="flex flex-col items-center">

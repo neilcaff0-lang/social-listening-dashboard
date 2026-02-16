@@ -29,8 +29,8 @@ export default function KeywordTrendChart({ data, keywordName }: KeywordTrendCha
   const chartData = useMemo(() => {
     return data.map(item => ({
       ...item,
-      // 简化月份显示：2025-1月 → 1月
-      shortMonth: item.month.replace(/^\d{4}-/, ""),
+      // 简化月份显示：2025年1月 → 1月
+      shortMonth: item.month.replace(/^\d{4}年/, ""),
       // YOY转换为百分比显示
       yoyPercent: item.yoy * 100,
     }));

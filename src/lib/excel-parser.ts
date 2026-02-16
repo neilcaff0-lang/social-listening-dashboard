@@ -6,6 +6,8 @@ const COLUMN_NAME_MAPPING: Record<string, string> = {
   '年份': 'YEAR',
   '月份': 'MONTH',
   '品类': 'CATEGORY',
+  '细分类目': 'SUBCATEGORY',
+  '细分': 'SUBCATEGORY',
   '关键词': 'KEYWORDS',
   '小红书_声量': '小红书_Buzz',
   '抖音_声量': '抖音_Buzz',
@@ -111,6 +113,9 @@ const RAW_COLUMN_MAPPING: Record<string, keyof RawDataRow> = {
   'YEAR': 'YEAR',
   'MONTH': 'MONTH',
   'CATEGORY': 'CATEGORY',
+  'SUBCATEGORY': 'SUBCATEGORY',
+  '细分类目': 'SUBCATEGORY',
+  '细分': 'SUBCATEGORY',
   'KEYWORDS': 'KEYWORDS',
 
   // 声量字段 - 支持多种格式（Buzz/BUZZ）
@@ -180,6 +185,9 @@ const NORMALIZED_COLUMN_MAPPING: Record<string, keyof RawDataRow> = {
   'YEAR': 'YEAR',
   'MONTH': 'MONTH',
   'CATEGORY': 'CATEGORY',
+  'SUBCATEGORY': 'SUBCATEGORY',
+  '细分类目': 'SUBCATEGORY',
+  '细分': 'SUBCATEGORY',
   'KEYWORDS': 'KEYWORDS',
   '小红书BUZZ': '小红书_Buzz',
   '抖音BUZZ': '抖音_Buzz',
@@ -323,8 +331,8 @@ export function parseSheetData(workbook: XLSX.WorkBook, sheetName: string): RawD
   // 建立列索引到字段名的映射（使用智能匹配）
   const columnMapping: (keyof RawDataRow | null)[] = headerRow.map((colName, idx) => {
     const field = mapColumnNameToField(colName != null ? String(colName) : '');
-    // 调试日志
-    if (colName) {
+    // 调试日志（仅在开发环境输出）
+    if (colName && process.env.NODE_ENV === 'development') {
       console.log(`[列映射] 列${idx + 1}: '${String(colName).trim()}' -> ${field ? `'${String(field)}'` : '未映射'}`);
     }
     return field;
@@ -380,8 +388,8 @@ export function parseSheetData(workbook: XLSX.WorkBook, sheetName: string): RawD
       return normalizedRow as unknown as RawDataRow;
     });
 
-  // 调试：检查首行数据
-  if (jsonData.length > 0) {
+  // 调试：检查首行数据（仅在开发环境输出）
+  if (jsonData.length > 0 && process.env.NODE_ENV === 'development') {
     const firstRow = jsonData[0];
     console.log(`[数据解析] Sheet: ${sheetName}, 首行数据:`, {
       关键词: firstRow.KEYWORDS,
@@ -442,7 +450,7 @@ export function validateData(data: RawDataRow[]): { valid: boolean; errors: stri
 
     // 验证 YEAR
     if (row.YEAR !== undefined && typeof row.YEAR !== 'number') {
-      errors.push(`第 ${rowNum} YEAR  行:应该是数字类型`);
+      errors.push(`第 ${rowNum} 行: YEAR 应该是数字类型`);
     }
 
     // 验证 MONTH

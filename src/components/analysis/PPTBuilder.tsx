@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
 import { useDataStore } from "@/store/useDataStore";
 import { extractKeywordsByDimension } from "@/lib/dimension-extractor";
+import { getMonthNumber } from "@/lib/data-processor";
 import { QuadrantPosition, QuadrantKeyword, PPTPage } from "@/types/analysis";
 import { Play, X, TrendingUp, Flame, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -107,12 +108,25 @@ export default function PPTBuilder() {
 
     const monthlyData = rawData
       .filter(row => row.KEYWORDS === keywordName && row.CATEGORY === selectedCategory)
-      .map(row => ({
-        month: `${row.YEAR}-${row.MONTH}`,
-        buzz: row.TTL_Buzz || 0,
-        yoy: row.TTL_Buzz_YOY || 0,
-      }))
-      .sort((a, b) => a.month.localeCompare(b.month));
+      .map(row => {
+        // 处理月份格式：支持 "1月"、"Jan"、1 等多种格式
+        const monthValue = row.MONTH || '';
+        const monthNum = getMonthNumber(monthValue);
+        // 将月份格式化为数字字符串（1-12）
+        const monthStr = monthNum > 0 ? `${monthNum}月` : String(monthValue);
+        return {
+          month: `${row.YEAR}年${monthStr}`,
+          year: row.YEAR,
+          monthNum: monthNum,
+          buzz: row.TTL_Buzz || 0,
+          yoy: row.TTL_Buzz_YOY || 0,
+        };
+      })
+      .sort((a, b) => {
+        // 先按年份排序，再按月份排序
+        if (a.year !== b.year) return a.year - b.year;
+        return a.monthNum - b.monthNum;
+      });
 
     return monthlyData;
   }, [rawData, selectedCategory]);
