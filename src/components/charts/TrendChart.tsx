@@ -12,24 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useDataStore } from '@/store/useDataStore';
-import { filterData, getAvailableCategories } from '@/lib/data-processor';
-
-// 月份转换辅助函数
-const MONTH_TO_NUM: Record<string, number> = {
-  'jan': 1, 'january': 1, 'feb': 2, 'february': 2,
-  'mar': 3, 'march': 3, 'apr': 4, 'april': 4,
-  'may': 5, 'jun': 6, 'june': 6, 'jul': 7, 'july': 7,
-  'aug': 8, 'august': 8, 'sep': 9, 'sept': 9, 'september': 9,
-  'oct': 10, 'october': 10, 'nov': 11, 'november': 11,
-  'dec': 12, 'december': 12,
-};
-
-function monthToNumber(month: string): number {
-  if (!month) return 0;
-  const chineseMatch = month.match(/^(\d+)月?$/);
-  if (chineseMatch) return parseInt(chineseMatch[1], 10);
-  return MONTH_TO_NUM[month.toLowerCase()] || 0;
-}
+import { filterData, getAvailableCategories, getMonthNumber } from '@/lib/data-processor';
 
 // 紫色系配色方案 (HSL format)
 const categoryColors = [
@@ -79,7 +62,7 @@ const TrendChart = forwardRef<HTMLDivElement, TrendChartProps>(function TrendCha
       const [yearB, monthB] = b.split('-');
       const yearDiff = parseInt(yearA) - parseInt(yearB);
       if (yearDiff !== 0) return yearDiff;
-      return monthToNumber(monthA) - monthToNumber(monthB);
+      return getMonthNumber(monthA) - getMonthNumber(monthB);
     });
 
     const categories = filters.categories.length > 0

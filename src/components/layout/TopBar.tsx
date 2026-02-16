@@ -3,6 +3,9 @@
 import { useDataStore } from "@/store/useDataStore";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Calendar } from "lucide-react";
+import { getMonthNumber } from "@/lib/data-processor";
+
+const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
 
 export default function TopBar() {
   const { rawData, filters } = useDataStore();
@@ -11,25 +14,12 @@ export default function TopBar() {
   const getTimeRange = () => {
     if (!hasData) return null;
 
-    // 月份映射表（支持英文缩写）
-    const monthMap: Record<string, string> = {
-      "Jan": "1月", "Feb": "2月", "Mar": "3月", "Apr": "4月",
-      "May": "5月", "Jun": "6月", "Jul": "7月", "Aug": "8月",
-      "Sep": "9月", "Oct": "10月", "Nov": "11月", "Dec": "12月"
-    };
-    const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
-
     // 获取当前筛选的时间范围
     const { year, months } = filters.timeFilter;
     if (!year || months.length === 0) return null;
 
     // 将月份转换为数字并排序
-    const monthNums = months.map((m) => {
-      if (monthMap[m]) {
-        return Object.keys(monthMap).indexOf(m) + 1;
-      }
-      return parseInt(m);
-    }).sort((a, b) => a - b);
+    const monthNums = months.map((m) => getMonthNumber(m)).sort((a, b) => a - b);
 
     if (monthNums.length === 0) return null;
 

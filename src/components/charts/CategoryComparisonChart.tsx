@@ -8,6 +8,12 @@ import { cn } from '@/lib/utils';
 
 type ViewMode = 'bar' | 'radar' | 'share';
 
+interface TooltipParam {
+  dataIndex: number;
+  name?: string;
+  value?: number | number[];
+}
+
 interface CategoryComparisonChartProps {
   className?: string;
 }
@@ -53,7 +59,7 @@ export default function CategoryComparisonChart({ className }: CategoryCompariso
             borderWidth: 1,
             borderRadius: 8,
             textStyle: { color: '#111827', fontSize: 12 },
-            formatter: (params: any[]) => {
+            formatter: (params: TooltipParam[]) => {
               const data = categoryData[params[0].dataIndex];
               return `
                 <div style="font-size: 13px;">
@@ -188,7 +194,7 @@ export default function CategoryComparisonChart({ className }: CategoryCompariso
             backgroundColor: 'rgba(255, 255, 255, 0.98)',
             borderColor: '#E5E7EB',
             textStyle: { color: '#111827' },
-            formatter: (params: any) => {
+            formatter: (params: TooltipParam) => {
               const data = categoryData[params.dataIndex];
               return `
                 <div style="font-size: 13px;">
