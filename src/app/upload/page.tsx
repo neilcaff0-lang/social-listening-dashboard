@@ -113,34 +113,34 @@ export default function UploadPage() {
   const currentStepNumber = getStepNumber(currentStep);
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* 左侧导航 */}
       <ModuleNav />
 
       {/* 右侧内容区 */}
-      <div style={{ marginLeft: '220px' }} className="min-h-screen flex flex-col">
+      <div style={{ marginLeft: '240px' }} className="min-h-screen flex flex-col">
         {/* 顶部栏 */}
         <TopBar />
 
         {/* 主内容区 - 居中布局 */}
         <main className="flex-1 flex items-start justify-center p-8">
-          <div className="w-full max-w-lg">
+          <div className="w-full max-w-5xl">
             {/* 步骤指示器 - 居中 */}
-            <div className="mb-8">
-              <div className="flex items-center justify-center gap-3">
+            <div className="mb-10">
+              <div className="flex items-center justify-center gap-2">
                 {(['upload', 'sheet-select', 'preview', 'confirm'] as UploadStep[]).map(
                   (step, index) => (
                     <div key={step} className="flex items-center">
                       {/* 步骤项 */}
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2.5">
                         <div
                           className={`
-                            flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold transition-all
+                            flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-300
                             ${currentStepNumber > index + 1
-                              ? 'bg-[#00C48C] text-white'
+                              ? 'bg-[#10B981] text-white shadow-md shadow-green-500/25'
                               : currentStepNumber === index + 1
-                                ? 'bg-gradient-to-br from-[#6C5CE7] to-[#a29bfe] text-white shadow-lg shadow-[#6C5CE7]/30'
-                                : 'bg-[#E8ECF1] text-[#9AA0AB]'
+                                ? 'bg-gradient-to-br from-[#6C5CE7] to-[#a29bfe] text-white shadow-lg shadow-[#6C5CE7]/30 ring-4 ring-[#6C5CE7]/10'
+                                : 'bg-[#E2E8F0] text-[#A0AEC0]'
                             }
                           `}
                         >
@@ -151,8 +151,8 @@ export default function UploadPage() {
                           )}
                         </div>
                         <span className={`
-                          text-sm font-medium hidden sm:block
-                          ${currentStepNumber === index + 1 ? 'text-[#1A1D23]' : 'text-[#9AA0AB]'}
+                          text-sm font-semibold transition-colors
+                          ${currentStepNumber === index + 1 ? 'text-[#0F1419]' : 'text-[#A0AEC0]'}
                         `}>
                           {STEP_LABELS[index]}
                         </span>
@@ -161,8 +161,8 @@ export default function UploadPage() {
                       {index < 3 && (
                         <div
                           className={`
-                            h-0.5 w-6 mx-2
-                            ${currentStepNumber > index + 1 ? 'bg-[#00C48C]' : 'bg-[#E8ECF1]'}
+                            h-0.5 w-8 mx-3 rounded-full transition-colors duration-300
+                            ${currentStepNumber > index + 1 ? 'bg-[#10B981]' : 'bg-[#E2E8F0]'}
                           `}
                         />
                       )}
@@ -172,7 +172,7 @@ export default function UploadPage() {
               </div>
             </div>
 
-            {/* 步骤内容卡片 - 无外框，直接展示 */}
+            {/* 步骤内容卡片 */}
             <div className="flex flex-col items-center">
               {/* 步骤1: 文件上传 */}
               {currentStep === 'upload' && (
@@ -181,7 +181,7 @@ export default function UploadPage() {
 
               {/* 步骤2: Sheet选择 */}
               {currentStep === 'sheet-select' && workbook && (
-                <div className="w-full rounded-2xl border border-[#E8ECF1] bg-white p-6">
+                <div className="w-full rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
                   <SheetSelector
                     sheetInfos={sheetInfos}
                     selectedSheets={selectedSheets}
@@ -192,7 +192,7 @@ export default function UploadPage() {
 
               {/* 步骤3: 数据预览 */}
               {currentStep === 'preview' && workbook && (
-                <div className="w-full rounded-2xl border border-[#E8ECF1] bg-white p-6">
+                <div className="w-full rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
                   <DataPreview
                     workbook={workbook}
                     selectedSheets={selectedSheets}
@@ -202,7 +202,7 @@ export default function UploadPage() {
 
               {/* 步骤4: 确认导入 */}
               {currentStep === 'confirm' && workbook && (
-                <div className="w-full rounded-2xl border border-[#E8ECF1] bg-white p-6">
+                <div className="w-full rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
                   <ImportConfirm
                     sheetCount={selectedSheets.length}
                     sheetNames={selectedSheets}
@@ -217,9 +217,9 @@ export default function UploadPage() {
 
             {/* 底部按钮 */}
             {currentStep !== 'upload' && (
-              <div className="mt-6 flex w-full justify-between">
+              <div className="mt-8 flex w-full justify-between">
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   onClick={handleBack}
                   className="gap-2"
                 >

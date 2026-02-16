@@ -38,8 +38,8 @@ export function SheetSelector({
   };
 
   return (
-    <div>
-      <div className="mb-4 flex items-center justify-between">
+    <div className="w-full">
+      <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
           选择要导入的 Sheet
         </h2>
@@ -61,13 +61,13 @@ export function SheetSelector({
       {sheetInfos.length === 0 ? (
         <p className="text-neutral-500">未找到任何 Sheet</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
           {sheetInfos.map((sheet) => (
             <div
               key={sheet.name}
               onClick={() => handleSelectSheet(sheet.name, !selectedSheets.includes(sheet.name))}
               className={`
-                relative cursor-pointer rounded-lg border p-4 transition-all
+                relative cursor-pointer rounded-lg border p-3.5 transition-all
                 ${
                   selectedSheets.includes(sheet.name)
                     ? 'border-blue-500 bg-blue-50 dark:border-blue-600 dark:bg-blue-900/20'
@@ -101,7 +101,7 @@ export function SheetSelector({
       )}
 
       {selectedSheets.length > 0 && (
-        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
           已选择 {selectedSheets.length} 个 Sheet，共{' '}
           {sheetInfos
             .filter((s) => selectedSheets.includes(s.name))
